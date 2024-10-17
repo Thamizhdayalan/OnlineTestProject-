@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OnlineTestProjectModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="OnlineTestProjectModelStoreContainer">
+    <EntitySet Name="AdminInfo" EntityType="OnlineTestProjectModel.Store.AdminInfo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Options" EntityType="OnlineTestProjectModel.Store.Options" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Questions" EntityType="OnlineTestProjectModel.Store.Questions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Subjects" EntityType="OnlineTestProjectModel.Store.Subjects" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TestTable" EntityType="OnlineTestProjectModel.Store.TestTable" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserInfo" EntityType="OnlineTestProjectModel.Store.UserInfo" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK__Options__Questio__6BE40491" Association="OnlineTestProjectModel.Store.FK__Options__Questio__6BE40491">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Options" EntitySet="Options" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AdminInfo">
+    <Key>
+      <PropertyRef Name="AdminId" />
+    </Key>
+    <Property Name="AdminId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AdminName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="EmailId" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="PhoneNumber" Type="bigint" Nullable="false" />
+    <Property Name="Pass_word" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="AdminCreatedDate" Type="datetime" />
+    <Property Name="LastLoginInfo" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Options">
+    <Key>
+      <PropertyRef Name="OptionId" />
+    </Key>
+    <Property Name="OptionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="OptionIndex" Type="varchar" Nullable="false" MaxLength="5" />
+    <Property Name="OptionText" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="IsCorrect" Type="bit" />
+  </EntityType>
+  <EntityType Name="Questions">
+    <Key>
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <Property Name="QuestionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="SubjectId" Type="int" />
+    <Property Name="QuestionText" Type="varchar" Nullable="false" MaxLength="500" />
+    <Property Name="CreatedDate" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Subjects">
+    <Key>
+      <PropertyRef Name="SubjectId" />
+    </Key>
+    <Property Name="SubjectId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TestTable">
+    <Key>
+      <PropertyRef Name="TestId" />
+    </Key>
+    <Property Name="TestId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TestName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="CreatedDate" Type="date" Nullable="false" />
+    <Property Name="Duration" Type="int" />
+    <Property Name="Expirydate" Type="date" />
+  </EntityType>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="EmailId" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="Mobile" Type="bigint" Nullable="false" />
+    <Property Name="Pass_word" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Registered_date" Type="date" />
+    <Property Name="Logininfo" Type="datetime" />
+  </EntityType>
+  <Association Name="FK__Options__Questio__6BE40491">
+    <End Role="Questions" Type="OnlineTestProjectModel.Store.Questions" Multiplicity="1" />
+    <End Role="Options" Type="OnlineTestProjectModel.Store.Options" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="Options">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="Adminlogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Email" Type="varchar" Mode="In" />
+    <Parameter Name="Password" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="DeleteSubject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="subjectid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="savequestions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="questiontext" Type="varchar" Mode="In" />
+    <Parameter Name="Subject" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="showsubjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="StoreOptions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="QuestionId" Type="int" Mode="In" />
+    <Parameter Name="optionIndex" Type="varchar" Mode="In" />
+    <Parameter Name="OptionText" Type="varchar" Mode="In" />
+    <Parameter Name="iscorrect" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="storesubjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="subject" Type="varchar" Mode="In" />
+  </Function>
+</Schema>

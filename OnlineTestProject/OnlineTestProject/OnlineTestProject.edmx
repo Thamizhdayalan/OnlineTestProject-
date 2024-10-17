@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OnlineTestProjectModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="OnlineTestProjectModelStoreContainer">
+          <EntitySet Name="AdminInfo" EntityType="OnlineTestProjectModel.Store.AdminInfo" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Options" EntityType="OnlineTestProjectModel.Store.Options" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Questions" EntityType="OnlineTestProjectModel.Store.Questions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Subjects" EntityType="OnlineTestProjectModel.Store.Subjects" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TestTable" EntityType="OnlineTestProjectModel.Store.TestTable" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserInfo" EntityType="OnlineTestProjectModel.Store.UserInfo" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__Options__Questio__6BE40491" Association="OnlineTestProjectModel.Store.FK__Options__Questio__6BE40491">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="Options" EntitySet="Options" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AdminInfo">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AdminName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="EmailId" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="PhoneNumber" Type="bigint" Nullable="false" />
+          <Property Name="Pass_word" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="AdminCreatedDate" Type="datetime" />
+          <Property Name="LastLoginInfo" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="OptionIndex" Type="varchar" Nullable="false" MaxLength="5" />
+          <Property Name="OptionText" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="IsCorrect" Type="bit" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectId" Type="int" />
+          <Property Name="QuestionText" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="CreatedDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="SubjectId" />
+          </Key>
+          <Property Name="SubjectId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TestTable">
+          <Key>
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Name="TestId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="CreatedDate" Type="date" Nullable="false" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="Expirydate" Type="date" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="EmailId" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Mobile" Type="bigint" Nullable="false" />
+          <Property Name="Pass_word" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Registered_date" Type="date" />
+          <Property Name="Logininfo" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Options__Questio__6BE40491">
+          <End Role="Questions" Type="OnlineTestProjectModel.Store.Questions" Multiplicity="1" />
+          <End Role="Options" Type="OnlineTestProjectModel.Store.Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="Options">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Adminlogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteSubject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="subjectid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="savequestions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="questiontext" Type="varchar" Mode="In" />
+          <Parameter Name="Subject" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="showsubjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="StoreOptions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionId" Type="int" Mode="In" />
+          <Parameter Name="optionIndex" Type="varchar" Mode="In" />
+          <Parameter Name="OptionText" Type="varchar" Mode="In" />
+          <Parameter Name="iscorrect" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="storesubjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="subject" Type="varchar" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OnlineTestProjectModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="OnlineTestProjectEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Questions" EntityType="OnlineTestProjectModel.Question" />
+          <EntitySet Name="TestTables" EntityType="OnlineTestProjectModel.TestTable" />
+          <EntitySet Name="UserInfoes" EntityType="OnlineTestProjectModel.UserInfo" />
+          <FunctionImport Name="Adminlogin" ReturnType="Collection(OnlineTestProjectModel.Adminlogin_Result)">
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="AdminInfoes" EntityType="OnlineTestProjectModel.AdminInfo" />
+          <FunctionImport Name="storequestions">
+            <Parameter Name="questiontext" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="storequestions1">
+            <Parameter Name="questiontext" Mode="In" Type="String" />
+            <Parameter Name="Subjects" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="storequestions2">
+            <Parameter Name="questiontext" Mode="In" Type="String" />
+            <Parameter Name="Subjects" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="savequestions">
+            <Parameter Name="questiontext" Mode="In" Type="String" />
+            <Parameter Name="Subject" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="storesubjects">
+          <Parameter Name="subject" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="showsubjects" ReturnType="Collection(OnlineTestProjectModel.showsubjects_Result)" />
+          <EntitySet Name="Subjects1" EntityType="OnlineTestProjectModel.Subjects" />
+          <FunctionImport Name="DeleteSubject">
+          <Parameter Name="subjectid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Options" EntityType="OnlineTestProjectModel.Option" />
+          <AssociationSet Name="FK__Options__Questio__6BE40491" Association="OnlineTestProjectModel.FK__Options__Questio__6BE40491">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="Option" EntitySet="Options" />
+          </AssociationSet>
+          <FunctionImport Name="StoreOptions">
+            <Parameter Name="QuestionId" Mode="In" Type="Int32" />
+            <Parameter Name="optionIndex" Mode="In" Type="String" />
+            <Parameter Name="OptionText" Mode="In" Type="String" />
+            <Parameter Name="iscorrect" Mode="In" Type="Boolean" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="SubjectId" Type="Int32" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionText" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Options" Relationship="OnlineTestProjectModel.FK__Options__Questio__6BE40491" FromRole="Question" ToRole="Option" />
+        </EntityType>
+        <EntityType Name="TestTable">
+          <Key>
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Name="TestId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="Expirydate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Mobile" Type="Int64" Nullable="false" />
+          <Property Name="Pass_word" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Registered_date" Type="DateTime" Precision="0" />
+          <Property Name="Logininfo" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="Adminlogin_Result">
+          <Property Type="Int32" Name="AdminId" Nullable="false" />
+          <Property Type="String" Name="AdminName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="PhoneNumber" Nullable="false" />
+          <Property Type="String" Name="Pass_word" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="AdminCreatedDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="LastLoginInfo" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="AdminInfo">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Type="Int32" Name="AdminId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="AdminName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int64" Name="PhoneNumber" Nullable="false" />
+          <Property Type="String" Name="Pass_word" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="AdminCreatedDate" Precision="3" />
+          <Property Type="DateTime" Name="LastLoginInfo" Precision="3" />
+        </EntityType>
+        <ComplexType Name="showsubjects_Result">
+          <Property Type="Int32" Name="SubjectId" Nullable="false" />
+          <Property Type="String" Name="Subject" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="SubjectId" />
+          </Key>
+          <Property Type="Int32" Name="SubjectId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Subject" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Type="Int32" Name="OptionId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="QuestionId" Nullable="false" />
+          <Property Type="String" Name="OptionIndex" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OptionText" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsCorrect" />
+          <NavigationProperty Name="Question" Relationship="OnlineTestProjectModel.FK__Options__Questio__6BE40491" FromRole="Option" ToRole="Question" />
+        </EntityType>
+        <Association Name="FK__Options__Questio__6BE40491">
+          <End Type="OnlineTestProjectModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="OnlineTestProjectModel.Option" Role="Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="Option">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OnlineTestProjectModelStoreContainer" CdmEntityContainer="OnlineTestProjectEntities">
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="OnlineTestProjectModel.Question">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestTables">
+            <EntityTypeMapping TypeName="OnlineTestProjectModel.TestTable">
+              <MappingFragment StoreEntitySet="TestTable">
+                <ScalarProperty Name="TestId" ColumnName="TestId" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Expirydate" ColumnName="Expirydate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfoes">
+            <EntityTypeMapping TypeName="OnlineTestProjectModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Pass_word" ColumnName="Pass_word" />
+                <ScalarProperty Name="Registered_date" ColumnName="Registered_date" />
+                <ScalarProperty Name="Logininfo" ColumnName="Logininfo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Adminlogin" FunctionName="OnlineTestProjectModel.Store.Adminlogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="OnlineTestProjectModel.Adminlogin_Result">
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Pass_word" ColumnName="Pass_word" />
+                <ScalarProperty Name="AdminCreatedDate" ColumnName="AdminCreatedDate" />
+                <ScalarProperty Name="LastLoginInfo" ColumnName="LastLoginInfo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="AdminInfoes">
+            <EntityTypeMapping TypeName="OnlineTestProjectModel.AdminInfo">
+              <MappingFragment StoreEntitySet="AdminInfo">
+                <ScalarProperty Name="LastLoginInfo" ColumnName="LastLoginInfo" />
+                <ScalarProperty Name="AdminCreatedDate" ColumnName="AdminCreatedDate" />
+                <ScalarProperty Name="Pass_word" ColumnName="Pass_word" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="savequestions" FunctionName="OnlineTestProjectModel.Store.savequestions" />
+          <FunctionImportMapping FunctionImportName="storesubjects" FunctionName="OnlineTestProjectModel.Store.storesubjects" />
+          <FunctionImportMapping FunctionImportName="showsubjects" FunctionName="OnlineTestProjectModel.Store.showsubjects">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="OnlineTestProjectModel.showsubjects_Result">
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Subjects1">
+            <EntityTypeMapping TypeName="OnlineTestProjectModel.Subjects">
+              <MappingFragment StoreEntitySet="Subjects">
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteSubject" FunctionName="OnlineTestProjectModel.Store.DeleteSubject" />
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="OnlineTestProjectModel.Option">
+              <MappingFragment StoreEntitySet="Options">
+                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+                <ScalarProperty Name="OptionText" ColumnName="OptionText" />
+                <ScalarProperty Name="OptionIndex" ColumnName="OptionIndex" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="StoreOptions" FunctionName="OnlineTestProjectModel.Store.StoreOptions" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OnlineTestProjectModelStoreContainer" CdmEntityContainer="OnlineTestProjectEntities">
+    <EntitySetMapping Name="Questions">
+      <EntityTypeMapping TypeName="OnlineTestProjectModel.Question">
+        <MappingFragment StoreEntitySet="Questions">
+          <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TestTables">
+      <EntityTypeMapping TypeName="OnlineTestProjectModel.TestTable">
+        <MappingFragment StoreEntitySet="TestTable">
+          <ScalarProperty Name="TestId" ColumnName="TestId" />
+          <ScalarProperty Name="TestName" ColumnName="TestName" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Expirydate" ColumnName="Expirydate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInfoes">
+      <EntityTypeMapping TypeName="OnlineTestProjectModel.UserInfo">
+        <MappingFragment StoreEntitySet="UserInfo">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Pass_word" ColumnName="Pass_word" />
+          <ScalarProperty Name="Registered_date" ColumnName="Registered_date" />
+          <ScalarProperty Name="Logininfo" ColumnName="Logininfo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Adminlogin" FunctionName="OnlineTestProjectModel.Store.Adminlogin">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OnlineTestProjectModel.Adminlogin_Result">
+          <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+          <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Pass_word" ColumnName="Pass_word" />
+          <ScalarProperty Name="AdminCreatedDate" ColumnName="AdminCreatedDate" />
+          <ScalarProperty Name="LastLoginInfo" ColumnName="LastLoginInfo" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="AdminInfoes">
+      <EntityTypeMapping TypeName="OnlineTestProjectModel.AdminInfo">
+        <MappingFragment StoreEntitySet="AdminInfo">
+          <ScalarProperty Name="LastLoginInfo" ColumnName="LastLoginInfo" />
+          <ScalarProperty Name="AdminCreatedDate" ColumnName="AdminCreatedDate" />
+          <ScalarProperty Name="Pass_word" ColumnName="Pass_word" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+          <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="savequestions" FunctionName="OnlineTestProjectModel.Store.savequestions" />
+    <FunctionImportMapping FunctionImportName="storesubjects" FunctionName="OnlineTestProjectModel.Store.storesubjects" />
+    <FunctionImportMapping FunctionImportName="showsubjects" FunctionName="OnlineTestProjectModel.Store.showsubjects">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OnlineTestProjectModel.showsubjects_Result">
+          <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Subjects1">
+      <EntityTypeMapping TypeName="OnlineTestProjectModel.Subjects">
+        <MappingFragment StoreEntitySet="Subjects">
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DeleteSubject" FunctionName="OnlineTestProjectModel.Store.DeleteSubject" />
+    <EntitySetMapping Name="Options">
+      <EntityTypeMapping TypeName="OnlineTestProjectModel.Option">
+        <MappingFragment StoreEntitySet="Options">
+          <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+          <ScalarProperty Name="OptionText" ColumnName="OptionText" />
+          <ScalarProperty Name="OptionIndex" ColumnName="OptionIndex" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="StoreOptions" FunctionName="OnlineTestProjectModel.Store.StoreOptions" />
+  </EntityContainerMapping>
+</Mapping>
