@@ -277,8 +277,9 @@ namespace OnlineTestProject.Controllers
             var del = dbcontext.TestTables.Find(testid);
             dbcontext.TestTables.Remove(del);
             dbcontext.SaveChanges();
-
+            //COMMIT NOW
             return Json("Success");
+
 
 
         }
