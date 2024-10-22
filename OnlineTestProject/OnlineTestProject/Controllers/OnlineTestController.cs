@@ -1,10 +1,32 @@
-﻿using System;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.IO;
+//using System.Linq;
+//using System.Web;
+//using System.Web.Mvc;
+//using Newtonsoft.Json;
+//using System.Collections.Concurrent;
+//using System.Collections;
+//using System.Data.SqlClient;
+//using System.Configuration;
+//using System.Data;
+//
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
+//using OnlineTestProject.Models;
+using System.Collections.Concurrent;
+using System.Collections;
+using System.Data.OleDb;
+using System.Web.Security;
+using OnlineTestProject.Controllers;
 namespace OnlineTestProject.Controllers
 {
     public class OnlineTestController : Controller
@@ -73,11 +95,29 @@ namespace OnlineTestProject.Controllers
         //}
 
         //this method is used table to show subjects//
-        public JsonResult ShowSubjects()
+        //public JsonResult ShowSubjects()
+        //{
+        //    var SubjectList = dbcontext.Subjects1.ToList();
+        //    return Json(SubjectList, JsonRequestBehavior.AllowGet);
+        //}
+
+
+        ////this method is used table to show subjects using Datatable parameters. this is effective method. always use this method to show a list 
+        //from database //
+
+        public JsonResult ShowSubjects(DataTableParameters dT)
         {
-            var SubjectList= dbcontext.Subjects1.ToList();
-            return Json(SubjectList, JsonRequestBehavior.AllowGet);
+
+
+            var SubjectList1 = new DataTableResultSet1();
+            SubjectList1.draw = dT.Draw;
+            List<Subjects> SubjectList2 = dbcontext.Subjects1.ToList();
+            SubjectList1.recordsTotal = SubjectList2.Count;
+            SubjectList1.recordsFiltered = SubjectList2.Count;
+            SubjectList1.data = SubjectList2;
+            return Json(SubjectList1, JsonRequestBehavior.AllowGet);
         }
+
 
         //this method is used storeprocedure to delete a subject//
         //public JsonResult RemoveSubject(int SUBID)
@@ -138,6 +178,7 @@ namespace OnlineTestProject.Controllers
 {
    
         var questions1 = JsonConvert.DeserializeObject<Question>(QUESTION);
+        questions1.CreatedDate = DateTime.UtcNow;
         dbcontext.Questions.Add(questions1);
         dbcontext.SaveChanges();
 
@@ -173,10 +214,75 @@ namespace OnlineTestProject.Controllers
         return Json("Success");
     }
 
+
+        public ActionResult TestCreationPage()
+        {
+            return View();
+        }
+
+
+        public JsonResult TestCreation(TestTable Details)
+        {
+            //var Details = JsonConvert.DeserializeObject<TestTable>(TESTDETAILS);
+            Details.CreatedDate = DateTime.UtcNow;
+
+            if (Details.Startdate >= Details.Expirydate)
+            {
+                return Json("Start date must be earlier than Expiry date.");
+            }
+            dbcontext.TestTables.Add(Details);
+            dbcontext.SaveChanges();
+
+            return Json("Success");
+
+        }
+
+        public JsonResult QuestionList(DataTableParameters dT)
+        {
+            //var QuesList = dbcontext.TestTables.ToList();
+            var QuesList1 = new DataTableResultSet2();
+            QuesList1.draw = dT.Draw;
+            var QuesList2 = dbcontext.TestTables.ToList();
+            QuesList1.recordsTotal = QuesList2.Count;
+            QuesList1.recordsFiltered = QuesList2.Count;
+            QuesList1.data = QuesList2;
+            return Json(QuesList1, JsonRequestBehavior.AllowGet);         
+        }
+
+        /// this is also one of the method to convert date and time format to jq datatable but this is unwanted code because 
+        /// we can change date and time in javascript itself and compare with this method and javascript, javascript is effective and fast
+        /// in this method we directly changed the date and time into string and  sent to javascript as string://///////
+       
+        //public JsonResult QuestionList()
+        //{
+
+        //var QuesList = dbcontext.TestTables.ToList().Select(q => new
+        //{
+        //    q.TestId,
+        //    q.TestName,
+        //    CreatedDate = q.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ss"),
+        //    Startdate = q.Startdate.ToString("yyyy-MM-ddTHH:mm:ss"),
+        //    Duration = q.Duration.HasValue ? q.Duration.Value.ToString() : null,
+        //    Expirydate = q.Expirydate.HasValue ? q.Expirydate.Value.ToString("yyyy-MM-ddTHH:mm:ss") : null
+        //}).ToList();
+
+        //    //return Json(QuesList, JsonRequestBehavior.AllowGet);
+        //}
+
+
+        public JsonResult RemoveTest(int testid)
+        {
+
+            var del = dbcontext.TestTables.Find(testid);
+           dbcontext.TestTables.Remove(del);
+            dbcontext.SaveChanges();
+
+            return Json("Success");
+
+
+        }
     }
 
 
 }
 
-//var optionsJson = JsonConvert.SerializeObject(OPTIONS);
-//        var options = JsonConvert.DeserializeObject<OptionsModel>(optionsJson);

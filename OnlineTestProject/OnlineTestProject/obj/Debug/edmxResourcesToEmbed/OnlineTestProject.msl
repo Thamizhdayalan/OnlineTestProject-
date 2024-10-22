@@ -11,17 +11,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TestTables">
-      <EntityTypeMapping TypeName="OnlineTestProjectModel.TestTable">
-        <MappingFragment StoreEntitySet="TestTable">
-          <ScalarProperty Name="TestId" ColumnName="TestId" />
-          <ScalarProperty Name="TestName" ColumnName="TestName" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="Duration" ColumnName="Duration" />
-          <ScalarProperty Name="Expirydate" ColumnName="Expirydate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="UserInfoes">
       <EntityTypeMapping TypeName="OnlineTestProjectModel.UserInfo">
         <MappingFragment StoreEntitySet="UserInfo">
@@ -92,5 +81,27 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="StoreOptions" FunctionName="OnlineTestProjectModel.Store.StoreOptions" />
+    <EntitySetMapping Name="TestQuestionsMappings">
+      <EntityTypeMapping TypeName="OnlineTestProjectModel.TestQuestionsMapping">
+        <MappingFragment StoreEntitySet="TestQuestionsMapping">
+          <ScalarProperty Name="Created_AdminId" ColumnName="Created_AdminId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="TestId" ColumnName="TestId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TestTables">
+      <EntityTypeMapping TypeName="OnlineTestProjectModel.TestTable">
+        <MappingFragment StoreEntitySet="TestTable">
+          <ScalarProperty Name="Expirydate" ColumnName="Expirydate" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Startdate" ColumnName="Startdate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="TestName" ColumnName="TestName" />
+          <ScalarProperty Name="TestId" ColumnName="TestId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

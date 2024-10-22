@@ -121,6 +121,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataTableParameters.cs" />
     <Compile Include="OnlineTestProject.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -147,6 +148,9 @@
       <DependentUpon>OnlineTestProject.tt</DependentUpon>
     </Compile>
     <Compile Include="Subjects.cs">
+      <DependentUpon>OnlineTestProject.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestQuestionsMapping.cs">
       <DependentUpon>OnlineTestProject.tt</DependentUpon>
     </Compile>
     <Compile Include="TestTable.cs">
@@ -357,6 +361,7 @@
     </EntityDeploy>
     <Content Include="OnlineTestProject.edmx.diagram">
       <DependentUpon>OnlineTestProject.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
@@ -459,10 +464,10 @@
     <Content Include="Scripts\jquery-3.7.1.min.map" />
     <Content Include="Views\OnlineTest\QuestionCreation.cshtml" />
     <Content Include="Views\OnlineTest\QuestionCreationPage.cshtml" />
+    <Content Include="Views\OnlineTest\TestCreationPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

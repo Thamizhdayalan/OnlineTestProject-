@@ -93,17 +93,18 @@ create table TestTable (
 TestId int primary key identity (1,1) not null,
 TestName varchar (100) not null,
 CreatedDate date default getdate() not null,
-Duration int,
+Startdate date not null,
+Duration time,
 Expirydate date 
 )
 
-drop table TestQuestionsMapping
+drop table TestTable
 
 create table TestQuestionsMapping (
-TestId int not null,
+TestId int primary key  not null,
 QuestionId int not null,
 CreatedDate date default CURRENT_TIMESTAMP,
-AdminId int 
+Created_AdminId int 
 )
 
 
@@ -141,7 +142,7 @@ select * from AdminInfo
 where EmailId = @Email and Pass_word = @Password
 end
 
-select * from questions
+select * from testtable
 select * from Subjects
 
 create procedure savequestions @questiontext varchar (500), @Subject varchar (50)
@@ -190,3 +191,5 @@ end
 
 
 select * from options
+select * from questions
+select * from testtable

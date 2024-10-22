@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="e0a88363fe8a40f9abd5811997b95cef" Name="Diagram1">
         <EntityTypeShape EntityType="OnlineTestProjectModel.Question" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlineTestProjectModel.TestTable" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlineTestProjectModel.UserInfo" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlineTestProjectModel.AdminInfo" Width="1.5" PointX="0.75" PointY="3.375" />
         <EntityTypeShape EntityType="OnlineTestProjectModel.my_table" Width="1.5" PointX="8.0736728627577765" PointY="8.3615438679054126" />
@@ -14,6 +13,8 @@
         <EntityTypeShape EntityType="OnlineTestProjectModel.Subjects" Width="1.5" PointX="2.875" PointY="5.25" />
         <EntityTypeShape EntityType="OnlineTestProjectModel.Option" Width="1.5" PointX="3.125" PointY="0.875" />
         <AssociationConnector Association="OnlineTestProjectModel.FK__Options__Questio__6BE40491" />
+        <EntityTypeShape EntityType="OnlineTestProjectModel.TestQuestionsMapping" Width="1.5" PointX="0.625" PointY="6.5" />
+        <EntityTypeShape EntityType="OnlineTestProjectModel.TestTable" Width="1.5" PointX="10.958203710130512" PointY="2.8530275536948011" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

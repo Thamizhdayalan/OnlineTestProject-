@@ -10,9 +10,10 @@
           <EntitySet Name="Options" EntityType="OnlineTestProjectModel.Store.Options" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Questions" EntityType="OnlineTestProjectModel.Store.Questions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Subjects" EntityType="OnlineTestProjectModel.Store.Subjects" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TestQuestionsMapping" EntityType="OnlineTestProjectModel.Store.TestQuestionsMapping" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TestTable" EntityType="OnlineTestProjectModel.Store.TestTable" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserInfo" EntityType="OnlineTestProjectModel.Store.UserInfo" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__Options__Questio__6BE40491" Association="OnlineTestProjectModel.Store.FK__Options__Questio__6BE40491">
+          <AssociationSet Name="FK__Options__Questio__7849DB76" Association="OnlineTestProjectModel.Store.FK__Options__Questio__7849DB76">
             <End Role="Questions" EntitySet="Questions" />
             <End Role="Options" EntitySet="Options" />
           </AssociationSet>
@@ -55,6 +56,15 @@
           <Property Name="SubjectId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="50" />
         </EntityType>
+        <EntityType Name="TestQuestionsMapping">
+          <Key>
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Name="TestId" Type="int" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="Created_AdminId" Type="int" />
+        </EntityType>
         <EntityType Name="TestTable">
           <Key>
             <PropertyRef Name="TestId" />
@@ -62,7 +72,8 @@
           <Property Name="TestId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="TestName" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="CreatedDate" Type="date" Nullable="false" />
-          <Property Name="Duration" Type="int" />
+          <Property Name="Startdate" Type="date" Nullable="false" />
+          <Property Name="Duration" Type="time" />
           <Property Name="Expirydate" Type="date" />
         </EntityType>
         <EntityType Name="UserInfo">
@@ -77,7 +88,7 @@
           <Property Name="Registered_date" Type="date" />
           <Property Name="Logininfo" Type="datetime" />
         </EntityType>
-        <Association Name="FK__Options__Questio__6BE40491">
+        <Association Name="FK__Options__Questio__7849DB76">
           <End Role="Questions" Type="OnlineTestProjectModel.Store.Questions" Multiplicity="1" />
           <End Role="Options" Type="OnlineTestProjectModel.Store.Options" Multiplicity="*" />
           <ReferentialConstraint>
@@ -116,7 +127,6 @@
       <Schema Namespace="OnlineTestProjectModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="OnlineTestProjectEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="Questions" EntityType="OnlineTestProjectModel.Question" />
-          <EntitySet Name="TestTables" EntityType="OnlineTestProjectModel.TestTable" />
           <EntitySet Name="UserInfoes" EntityType="OnlineTestProjectModel.UserInfo" />
           <FunctionImport Name="Adminlogin" ReturnType="Collection(OnlineTestProjectModel.Adminlogin_Result)">
             <Parameter Name="Email" Mode="In" Type="String" />
@@ -157,6 +167,8 @@
             <Parameter Name="OptionText" Mode="In" Type="String" />
             <Parameter Name="iscorrect" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <EntitySet Name="TestQuestionsMappings" EntityType="OnlineTestProjectModel.TestQuestionsMapping" />
+          <EntitySet Name="TestTables" EntityType="OnlineTestProjectModel.TestTable" />
         </EntityContainer>
         <EntityType Name="Question">
           <Key>
@@ -167,16 +179,6 @@
           <Property Name="QuestionText" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Options" Relationship="OnlineTestProjectModel.FK__Options__Questio__6BE40491" FromRole="Question" ToRole="Option" />
-        </EntityType>
-        <EntityType Name="TestTable">
-          <Key>
-            <PropertyRef Name="TestId" />
-          </Key>
-          <Property Name="TestId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="TestName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Duration" Type="Int32" />
-          <Property Name="Expirydate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -245,6 +247,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TestQuestionsMapping">
+          <Key>
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Type="Int32" Name="TestId" Nullable="false" />
+          <Property Type="Int32" Name="QuestionId" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Precision="0" />
+          <Property Type="Int32" Name="Created_AdminId" />
+        </EntityType>
+        <EntityType Name="TestTable">
+          <Key>
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Type="Int32" Name="TestId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="TestName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="DateTime" Name="Startdate" Nullable="false" Precision="0" />
+          <Property Type="Time" Name="Duration" Precision="7" />
+          <Property Type="DateTime" Name="Expirydate" Precision="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -258,17 +280,6 @@
                 <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
                 <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TestTables">
-            <EntityTypeMapping TypeName="OnlineTestProjectModel.TestTable">
-              <MappingFragment StoreEntitySet="TestTable">
-                <ScalarProperty Name="TestId" ColumnName="TestId" />
-                <ScalarProperty Name="TestName" ColumnName="TestName" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="Expirydate" ColumnName="Expirydate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -342,6 +353,28 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="StoreOptions" FunctionName="OnlineTestProjectModel.Store.StoreOptions" />
+          <EntitySetMapping Name="TestQuestionsMappings">
+            <EntityTypeMapping TypeName="OnlineTestProjectModel.TestQuestionsMapping">
+              <MappingFragment StoreEntitySet="TestQuestionsMapping">
+                <ScalarProperty Name="Created_AdminId" ColumnName="Created_AdminId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="TestId" ColumnName="TestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestTables">
+            <EntityTypeMapping TypeName="OnlineTestProjectModel.TestTable">
+              <MappingFragment StoreEntitySet="TestTable">
+                <ScalarProperty Name="Expirydate" ColumnName="Expirydate" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Startdate" ColumnName="Startdate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="TestId" ColumnName="TestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

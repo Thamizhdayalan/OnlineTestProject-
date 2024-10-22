@@ -12,14 +12,11 @@ namespace OnlineTestProject
     using System;
     using System.Collections.Generic;
     
-    public partial class TestTable
+    public partial class TestQuestionsMapping
     {
         public int TestId { get; set; }
-        public string TestName { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public System.DateTime Startdate { get; set; }
-        public Nullable<System.TimeSpan> Duration { get; set; }
-        public Nullable<System.DateTime> Expirydate { get; set; }
+        public int QuestionId { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<int> Created_AdminId { get; set; }
     }
 }
-

@@ -5,9 +5,10 @@
     <EntitySet Name="Options" EntityType="OnlineTestProjectModel.Store.Options" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Questions" EntityType="OnlineTestProjectModel.Store.Questions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Subjects" EntityType="OnlineTestProjectModel.Store.Subjects" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TestQuestionsMapping" EntityType="OnlineTestProjectModel.Store.TestQuestionsMapping" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TestTable" EntityType="OnlineTestProjectModel.Store.TestTable" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserInfo" EntityType="OnlineTestProjectModel.Store.UserInfo" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK__Options__Questio__6BE40491" Association="OnlineTestProjectModel.Store.FK__Options__Questio__6BE40491">
+    <AssociationSet Name="FK__Options__Questio__7849DB76" Association="OnlineTestProjectModel.Store.FK__Options__Questio__7849DB76">
       <End Role="Questions" EntitySet="Questions" />
       <End Role="Options" EntitySet="Options" />
     </AssociationSet>
@@ -50,6 +51,15 @@
     <Property Name="SubjectId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="50" />
   </EntityType>
+  <EntityType Name="TestQuestionsMapping">
+    <Key>
+      <PropertyRef Name="TestId" />
+    </Key>
+    <Property Name="TestId" Type="int" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="Created_AdminId" Type="int" />
+  </EntityType>
   <EntityType Name="TestTable">
     <Key>
       <PropertyRef Name="TestId" />
@@ -57,7 +67,8 @@
     <Property Name="TestId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TestName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="CreatedDate" Type="date" Nullable="false" />
-    <Property Name="Duration" Type="int" />
+    <Property Name="Startdate" Type="date" Nullable="false" />
+    <Property Name="Duration" Type="time" />
     <Property Name="Expirydate" Type="date" />
   </EntityType>
   <EntityType Name="UserInfo">
@@ -72,7 +83,7 @@
     <Property Name="Registered_date" Type="date" />
     <Property Name="Logininfo" Type="datetime" />
   </EntityType>
-  <Association Name="FK__Options__Questio__6BE40491">
+  <Association Name="FK__Options__Questio__7849DB76">
     <End Role="Questions" Type="OnlineTestProjectModel.Store.Questions" Multiplicity="1" />
     <End Role="Options" Type="OnlineTestProjectModel.Store.Options" Multiplicity="*" />
     <ReferentialConstraint>

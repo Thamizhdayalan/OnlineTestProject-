@@ -2,7 +2,6 @@
 <Schema Namespace="OnlineTestProjectModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="OnlineTestProjectEntities" p1:LazyLoadingEnabled="true">
     <EntitySet Name="Questions" EntityType="OnlineTestProjectModel.Question" />
-    <EntitySet Name="TestTables" EntityType="OnlineTestProjectModel.TestTable" />
     <EntitySet Name="UserInfoes" EntityType="OnlineTestProjectModel.UserInfo" />
     <FunctionImport Name="Adminlogin" ReturnType="Collection(OnlineTestProjectModel.Adminlogin_Result)">
       <Parameter Name="Email" Mode="In" Type="String" />
@@ -43,6 +42,8 @@
       <Parameter Name="OptionText" Mode="In" Type="String" />
       <Parameter Name="iscorrect" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <EntitySet Name="TestQuestionsMappings" EntityType="OnlineTestProjectModel.TestQuestionsMapping" />
+    <EntitySet Name="TestTables" EntityType="OnlineTestProjectModel.TestTable" />
   </EntityContainer>
   <EntityType Name="Question">
     <Key>
@@ -53,16 +54,6 @@
     <Property Name="QuestionText" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
     <NavigationProperty Name="Options" Relationship="OnlineTestProjectModel.FK__Options__Questio__6BE40491" FromRole="Question" ToRole="Option" />
-  </EntityType>
-  <EntityType Name="TestTable">
-    <Key>
-      <PropertyRef Name="TestId" />
-    </Key>
-    <Property Name="TestId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-    <Property Name="TestName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Duration" Type="Int32" />
-    <Property Name="Expirydate" Type="DateTime" Precision="0" />
   </EntityType>
   <EntityType Name="UserInfo">
     <Key>
@@ -131,4 +122,24 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="TestQuestionsMapping">
+    <Key>
+      <PropertyRef Name="TestId" />
+    </Key>
+    <Property Type="Int32" Name="TestId" Nullable="false" />
+    <Property Type="Int32" Name="QuestionId" Nullable="false" />
+    <Property Type="DateTime" Name="CreatedDate" Precision="0" />
+    <Property Type="Int32" Name="Created_AdminId" />
+  </EntityType>
+  <EntityType Name="TestTable">
+    <Key>
+      <PropertyRef Name="TestId" />
+    </Key>
+    <Property Type="Int32" Name="TestId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="TestName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+    <Property Type="DateTime" Name="Startdate" Nullable="false" Precision="0" />
+    <Property Type="Time" Name="Duration" Precision="7" />
+    <Property Type="DateTime" Name="Expirydate" Precision="0" />
+  </EntityType>
 </Schema>

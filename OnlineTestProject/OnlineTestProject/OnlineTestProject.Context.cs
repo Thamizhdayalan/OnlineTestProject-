@@ -29,11 +29,12 @@ namespace OnlineTestProject
         }
     
         public DbSet<Question> Questions { get; set; }
-        public DbSet<TestTable> TestTables { get; set; }
         public DbSet<UserInfo> UserInfoes { get; set; }
         public DbSet<AdminInfo> AdminInfoes { get; set; }
         public DbSet<Subjects> Subjects1 { get; set; }
         public DbSet<Option> Options { get; set; }
+        public DbSet<TestQuestionsMapping> TestQuestionsMappings { get; set; }
+        public DbSet<TestTable> TestTables { get; set; }
     
         public virtual ObjectResult<Adminlogin_Result> Adminlogin(string email, string password)
         {
