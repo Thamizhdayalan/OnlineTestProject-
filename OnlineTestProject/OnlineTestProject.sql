@@ -193,3 +193,4 @@ end
 select * from options
 select * from questions
 select * from testtable
+select * from subjects

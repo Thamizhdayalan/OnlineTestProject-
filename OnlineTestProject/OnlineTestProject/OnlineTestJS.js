@@ -370,7 +370,7 @@ function Create()
 //};
 
 function ShowQuestions() {
-    alert("Hi");
+    alert("TAMIL");
 
     $("#Questionlist").DataTable({
         // Uncomment if needed
@@ -418,13 +418,12 @@ function ShowQuestions() {
              {
                  "data": "Startdate",
                  render: function (data) {
-                     // Convert the /Date(1729189800000)/ format to a Date object
-                     var date = new Date(parseInt(data.match(/\/Date\((\d+)\)\//)[1]));
-                     // Format the date to dd/mm/yyyy
+            
+                     var date = new Date(parseInt(data.match(/\/Date\((\d+)\)\//)[1]));              
                      var day = ('0' + date.getDate()).slice(-2);
-                     var month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
+                     var month = ('0' + (date.getMonth() + 1)).slice(-2); 
                      var year = date.getFullYear();
-                     return day + '/' + month + '/' + year; // Return formatted date
+                     return day + '/' + month + '/' + year; 
                  }
              },
             //{ "data": "Startdate", "className": "center", "autoWidth": true },
@@ -461,8 +460,8 @@ function ShowQuestions() {
                   
                   mRender: function (data, type, row) {
 
-                      return '<a onclick="EditTest(' + row.TestId + ')" class = "btn btn-danger" >Edit</a>'
-
+                      return '<a onclick="EditTest(' + row.TestId + ')" class = "btn btn-danger"  >Edit</a>'
+                      //return '<a onclick="EditTest(' + row.TestId + ')" class = "btn btn-danger" data-toggle="modal" data-target="#myModa
                   },
               },
     {
@@ -477,21 +476,15 @@ function ShowQuestions() {
     });
 }
 
-function EditTest(ID) {
 
-    alert(ID);
-}
 
 function DeleteTest(ID) {
-
-    alert(ID);
 
     $.ajax({
 
         type: "POST",
         url: "/OnlineTest/RemoveTest",
         data: { testid: ID },
-
         success: function (Result){
             if(Result == "Success"){
                 alert("Test Deleted Successfully:");
@@ -509,3 +502,76 @@ function DeleteTest(ID) {
 
 }
 
+function EditTest(Id) {
+
+   
+    $("#testmodify1").hide();
+    $.ajax({
+        
+        type   :  "GET",
+        url    : "/onlineTest/EditTest",
+        data   : {testid:Id},
+        datatype: "json",
+
+        success: function (res) {
+            alert(JSON.stringify(res));
+
+            var Stdate = new Date(parseInt(res.Startdate.match(/\/Date\((\d+)\)\//)[1]));
+            var Stday = ('0' + Stdate.getDate()).slice(-2);
+            var Stmonth = ('0' + (Stdate.getMonth() + 1)).slice(-2);
+            var Styear = Stdate.getFullYear();
+            var startdate = Styear + '-' + Stmonth + '-' + Stday;
+            alert(startdate);
+
+            var Exdate = new Date(parseInt(res.Expirydate.match(/\/Date\((\d+)\)\//)[1]));
+            var Exday = ('0' + Exdate.getDate()).slice(-2);
+            var Exmonth = ('0' + (Exdate.getMonth() + 1)).slice(-2);
+            var Exyear = Exdate.getFullYear();
+            var expirydate = Exyear + '-' + Exmonth + '-' + Exday;
+            alert(expirydate);
+
+            var DURATION = res.Duration.Hours + ":" + res.Duration.Minutes;
+           alert(DURATION);
+
+            $("#testid").val(res.TestId);
+            $("#testname1").val(res.TestName);   
+            $("#startdate1").val(startdate);
+            $("#duration1").val(DURATION);
+            $("#ExpiryDate1").val(expirydate);
+            //$("#myModal1").modal('show');
+            $("#testmodify1").show();          
+
+        },
+
+        error: function (response) {
+            alert(response);
+        }
+
+    })
+}
+
+function Update(ID) {
+
+    alert("Hi");
+
+    $.ajax({
+
+        type: "POST",
+        url: "/OnlineTest/Update",
+        data: { TestId: ID },
+        datatype:"json",
+        success: function (Result) {
+            if (Result == "Success") {
+                alert("Data Updated Successfully:");
+            }
+        },
+
+        error: function () {
+
+            alert("Data is not Updated:");
+
+        }
+
+    })
+
+}

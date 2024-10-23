@@ -37,7 +37,7 @@ namespace OnlineTestProject.Controllers
         public ActionResult OnlineTestView()
         {
             return View();
-        
+
         }
 
 
@@ -53,11 +53,12 @@ namespace OnlineTestProject.Controllers
             if (admin2.AdminId > 0)
             {
 
-                return Json(admin2, message = "Login Successful",JsonRequestBehavior.AllowGet);
+                return Json(admin2, message = "Login Successful", JsonRequestBehavior.AllowGet);
             }
 
-            else{
-            return Json( message = "Login Failed",JsonRequestBehavior.AllowGet);
+            else
+            {
+                return Json(message = "Login Failed", JsonRequestBehavior.AllowGet);
             }
 
 
@@ -84,7 +85,7 @@ namespace OnlineTestProject.Controllers
             dbcontext.Subjects1.Add(formData);
             dbcontext.SaveChanges();
             return Json("success");
-          
+
         }
 
         //this method is used storeprocedure to show subjects//
@@ -109,7 +110,7 @@ namespace OnlineTestProject.Controllers
         {
 
 
-            var SubjectList1 = new DataTableResultSet1();
+            var SubjectList1 = new DataTableResultSet_SubjectList();
             SubjectList1.draw = dT.Draw;
             List<Subjects> SubjectList2 = dbcontext.Subjects1.ToList();
             SubjectList1.recordsTotal = SubjectList2.Count;
@@ -139,12 +140,12 @@ namespace OnlineTestProject.Controllers
 
         }
 
-       
+
 
         public ActionResult SubjecstDropdown()
         {
             var subjectlist = dbcontext.Subjects1.ToList();
-            List<SelectListItem> Subj= subjectlist.ConvertAll(a => new SelectListItem() { Text = a.Subject.ToString(), Value = a.SubjectId.ToString() }).ToList();
+            List<SelectListItem> Subj = subjectlist.ConvertAll(a => new SelectListItem() { Text = a.Subject.ToString(), Value = a.SubjectId.ToString() }).ToList();
             ViewData["Subject"] = Subj;
             //return Json(subjectlist, JsonRequestBehavior.AllowGet);
             return View("QuestionCreationPage");
@@ -158,7 +159,7 @@ namespace OnlineTestProject.Controllers
         //    //var questions1 = JsonConvert.SerializeObject(QUESTION);
 
         //    var questions1 = JsonConvert.DeserializeObject<Question>(QUESTION);
-    
+
         //    optionlist = JsonConvert.DeserializeObject<List<Option>>(OPTIONS);
         //    dbcontext.Questions.Add(questions1);
         //    //dbcontext.Options.AddRange(options2);
@@ -175,44 +176,44 @@ namespace OnlineTestProject.Controllers
 
 
         public JsonResult StoreQuestions(string QUESTION, string OPTIONS)
-{
-   
-        var questions1 = JsonConvert.DeserializeObject<Question>(QUESTION);
-        questions1.CreatedDate = DateTime.UtcNow;
-        dbcontext.Questions.Add(questions1);
-        dbcontext.SaveChanges();
-
-        var quesid = questions1.QuestionId;
-          
-        var optionlist = JsonConvert.DeserializeObject<List<Option>>(OPTIONS);
-
-     
-        //optionlist.Add(quesid);
-           
-            //this method is direct table method////
-        //foreach (var option in optionlist)
-        //{
-        //    //option.Question = questions1;
-        //    option.QuestionId = quesid; // Bind QuestionId to the option
-        //    dbcontext.Options.Add(option); // Add option to the context
-        //    dbcontext.SaveChanges();
-        //}
-
-
-        //this method is storeprocedure method////
-        foreach (var option in optionlist)
         {
-            //option.Question = questions1;
-            option.QuestionId = quesid; // Bind QuestionId to the option
-        
-            dbcontext.StoreOptions(option.QuestionId,option.OptionIndex,option.OptionText,option.IsCorrect);
-            dbcontext.SaveChanges();
-        }
 
-        
-        
-        return Json("Success");
-    }
+            var questions1 = JsonConvert.DeserializeObject<Question>(QUESTION);
+            questions1.CreatedDate = DateTime.UtcNow;
+            dbcontext.Questions.Add(questions1);
+            dbcontext.SaveChanges();
+
+            var quesid = questions1.QuestionId;
+
+            var optionlist = JsonConvert.DeserializeObject<List<Option>>(OPTIONS);
+
+
+            //optionlist.Add(quesid);
+
+            //this method is direct table method////
+            //foreach (var option in optionlist)
+            //{
+            //    //option.Question = questions1;
+            //    option.QuestionId = quesid; // Bind QuestionId to the option
+            //    dbcontext.Options.Add(option); // Add option to the context
+            //    dbcontext.SaveChanges();
+            //}
+
+
+            //this method is storeprocedure method////
+            foreach (var option in optionlist)
+            {
+                //option.Question = questions1;
+                option.QuestionId = quesid; // Bind QuestionId to the option
+
+                dbcontext.StoreOptions(option.QuestionId, option.OptionIndex, option.OptionText, option.IsCorrect);
+                dbcontext.SaveChanges();
+            }
+
+
+
+            return Json("Success");
+        }
 
 
         public ActionResult TestCreationPage()
@@ -240,19 +241,19 @@ namespace OnlineTestProject.Controllers
         public JsonResult QuestionList(DataTableParameters dT)
         {
             //var QuesList = dbcontext.TestTables.ToList();
-            var QuesList1 = new DataTableResultSet2();
+            var QuesList1 = new DataTableResultSet_TestTableList();
             QuesList1.draw = dT.Draw;
             var QuesList2 = dbcontext.TestTables.ToList();
             QuesList1.recordsTotal = QuesList2.Count;
             QuesList1.recordsFiltered = QuesList2.Count;
             QuesList1.data = QuesList2;
-            return Json(QuesList1, JsonRequestBehavior.AllowGet);         
+            return Json(QuesList1, JsonRequestBehavior.AllowGet);
         }
 
         /// this is also one of the method to convert date and time format to jq datatable but this is unwanted code because 
         /// we can change date and time in javascript itself and compare with this method and javascript, javascript is effective and fast
         /// in this method we directly changed the date and time into string and  sent to javascript as string://///////
-       
+
         //public JsonResult QuestionList()
         //{
 
@@ -274,15 +275,34 @@ namespace OnlineTestProject.Controllers
         {
 
             var del = dbcontext.TestTables.Find(testid);
-           dbcontext.TestTables.Remove(del);
+            dbcontext.TestTables.Remove(del);
             dbcontext.SaveChanges();
 
             return Json("Success");
 
 
         }
-    }
 
+        public JsonResult EditTest(int testid)
+        {
+
+            var edit = dbcontext.TestTables.Find(testid);
+            return Json(edit, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        public JsonResult Update(int TestId)
+        {
+            var update = dbcontext.TestTables.Find(TestId);
+
+            dbcontext.Entry(update).State = EntityState.Modified; // Set the state to Modified
+            dbcontext.SaveChanges();
+
+            return Json("Success");
+
+        }
+    }
 
 }
 

@@ -8,17 +8,28 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>TestCreationPage</title>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <script src="~/scripts/bootstrap.min.js"></script>
+   <script src="~/scripts/bootstrap.bundle.min.js"></script>
+   <link href="~/content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/scripts/jquery-3.7.1.min.js"></script>
+    <script src="~/scripts/jquery.validate.min.js"></script>
+    <script src="~/scripts/datatables/jquery.datatables.min.js"></script>
+    <link href="~/content/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
+
+     @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+   @* <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+     
     <script src="~/OnlineTestJS.js"></script>
 </head>
 <body>
     <div class="container">
+
+         
         <h3>Welcome to Test CreationPage Admin:</h3>
         <br />
         <br />
@@ -65,5 +76,40 @@
         </table>
 
     </div>
+    <div class="container">
+    <div id="testmodify1" style="display: none;">
+ 
+        <div class="row">
+            <div class="col-md-3"></div>
+                        
+
+                     <form id="testmodify2" name="testmodify2">
+             @Html.Hidden("testid", "", new { @class = "form-control" })
+
+            @Html.Label("", "enter testname:")
+
+            @Html.TextBox("testname1", "", new { @class = "form-control" })<br />
+
+            @Html.Label("", "enter startdate:")
+
+            @Html.TextBox("startdate1", "", new { @class = "form-control", type = "date" })<br />
+
+            @Html.Label("", "set duration:")<br />
+
+            <input type="text"  id="duration1" name="duration1" required pattern="[0-9]{2}:[0-9]{2}" value="00:00" title="Write a duration in the format hh:mm"><br />
+            <br /><br />
+
+            @Html.Label("", "Enter ExpiryDate")
+            @Html.TextBox("ExpiryDate1", "", new { @class = "form-control", type = "date" })<br />
+
+           <button type="button" id="hide" class=" btn btn-success" >Hide</button>  
+            <button type="button" class=" btn btn-success" onclick="Update()">Update</button><br />           
+        </form>
+                    <br /><br />
+
+                    </div>
+        </div>
+        </div>
+                
 </body>
 </html>

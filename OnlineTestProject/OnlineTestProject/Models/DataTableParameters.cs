@@ -55,7 +55,7 @@ namespace OnlineTestProject
 
     }
 
-    public class DataTableResultSet1
+    public class DataTableResultSet_SubjectList
     {
         /// <summary>Array of records. Each element of the array is itself an array of columns</summary>
         //public List<Dictionary<string, string>> data = new List<Dictionary<string, string>>();
@@ -82,7 +82,7 @@ namespace OnlineTestProject
         }
     }
 
-    public class DataTableResultSet2
+    public class DataTableResultSet_TestTableList
     {
         
 
