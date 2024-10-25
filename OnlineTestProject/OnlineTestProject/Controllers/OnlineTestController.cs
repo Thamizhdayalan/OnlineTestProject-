@@ -294,14 +294,27 @@ namespace OnlineTestProject.Controllers
         }
 
 
-        public JsonResult Update(int TestId)
+       
+        public JsonResult Update(List<TestTable> updateTable)
         {
-            var update = dbcontext.TestTables.Find(TestId);
+            var update = dbcontext.TestTables.Find(updateTable.TestId);
+
+           
+            update.TestId = updateTable.TestId;
+            update.TestName = updateTable.TestName;
+            update.Startdate = updateTable.Startdate;
+            update.Duration = updateTable.Duration;
+            update.Expirydate = updateTable.Expirydate;
+
+            if (update == null)
+            {
+                return Json(new { success = false, message = "Test not found." }, JsonRequestBehavior.AllowGet);
+            }
 
             dbcontext.Entry(update).State = EntityState.Modified; // Set the state to Modified
             dbcontext.SaveChanges();
 
-            return Json("Success");
+            return Json(new { success = true, message = "Success" }, JsonRequestBehavior.AllowGet);
 
         }
     }

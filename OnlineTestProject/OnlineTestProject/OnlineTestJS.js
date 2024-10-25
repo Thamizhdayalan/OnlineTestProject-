@@ -509,7 +509,7 @@ function EditTest(Id) {
     $.ajax({
         
         type   :  "GET",
-        url    : "/onlineTest/EditTest",
+        url: "/OnlineTest/EditTest",
         data   : {testid:Id},
         datatype: "json",
 
@@ -550,28 +550,54 @@ function EditTest(Id) {
     })
 }
 
-function Update(ID) {
+//function Update(ID) {
 
-    alert("Hi");
+    
+
+//    $.ajax({
+
+//        type: "POST",
+//        url: "/OnlineTest/Update",
+//        data: { testid: ID },
+//        success: function (Result) {
+//            if (Result == "Success") {
+//                alert("Test Deleted Successfully:");
+//            }
+//        },
+
+//        error: function () {
+
+//            alert("Test is not Deleted:");
+
+//        }
+
+//    })
+
+
+//}
+
+function Update() {
+
+    var updatetest = $("#testmodify2").serialize();
+    var updat = JSON.stringify(updatetest);
+    alert(updat);
 
     $.ajax({
-
         type: "POST",
         url: "/OnlineTest/Update",
-        data: { TestId: ID },
-        datatype:"json",
-        success: function (Result) {
-            if (Result == "Success") {
-                alert("Data Updated Successfully:");
+        datatype: "json",
+        data: updat,
+        success: function (result) {
+            if (result.success)
+            {
+                alert("Test updated successfully: " + result.message);
+            }
+            else {
+                alert("Error: " + result.message);
             }
         },
-
-        error: function () {
-
-            alert("Data is not Updated:");
-
+        error: function (X) {
+            alert(JSON.stringify(X));//"An error occurred while trying to update the test.");
         }
-
-    })
-
+    });
 }
