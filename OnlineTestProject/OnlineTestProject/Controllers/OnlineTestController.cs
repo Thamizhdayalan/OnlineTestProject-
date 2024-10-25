@@ -36,6 +36,7 @@ namespace OnlineTestProject.Controllers
 
         public ActionResult OnlineTestView()
         {
+
             return View();
 
         }
