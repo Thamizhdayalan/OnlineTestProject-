@@ -414,6 +414,15 @@ function ShowQuestions() {
                     return day + '/' + month + '/' + year; // Return formatted date
                 }
             },
+
+             {
+                 "data": "Startdate",
+                 "render": function (data) {
+                     return moment(data).format("DD/MM/YYYY");
+                 }, "autowidth": true
+
+             },
+
             
              //{
              //    "data": "Startdate",
