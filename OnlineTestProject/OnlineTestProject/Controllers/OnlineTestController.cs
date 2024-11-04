@@ -294,17 +294,17 @@ namespace OnlineTestProject.Controllers
         }
 
 
-       
-        public JsonResult Update(List<TestTable> updateTable)
-        {
-            var update = dbcontext.TestTables.Find(updateTable.TestId);
 
-           
-            update.TestId = updateTable.TestId;
-            update.TestName = updateTable.TestName;
-            update.Startdate = updateTable.Startdate;
-            update.Duration = updateTable.Duration;
-            update.Expirydate = updateTable.Expirydate;
+        public JsonResult Update(TestTable upd)
+        {
+            //var Update1 = JsonConvert.DeserializeObject<TestTable>(upd);
+            var update = dbcontext.TestTables.Find(upd.TestId);
+
+            update.TestId = upd.TestId;
+            update.TestName = upd.TestName;
+            update.Startdate = upd.Startdate;
+            update.Duration = upd.Duration;
+            update.Expirydate = upd.Expirydate;
 
             if (update == null)
             {

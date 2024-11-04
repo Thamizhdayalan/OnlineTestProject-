@@ -370,7 +370,7 @@ function Create()
 //};
 
 function ShowQuestions() {
-    alert("TAMIL");
+    
 
     $("#Questionlist").DataTable({
         // Uncomment if needed
@@ -387,7 +387,7 @@ function ShowQuestions() {
              
             //dataSrc: "", // Use this if the response is directly an array
             data: function (d) {
-                alert(JSON.stringify(d));
+                    alert(JSON.stringify(d));
                 return JSON.stringify(d);
 
             },
@@ -414,20 +414,20 @@ function ShowQuestions() {
                     return day + '/' + month + '/' + year; // Return formatted date
                 }
             },
-            //{ "data": "CreatedDate", "className": "center", "autoWidth": true },
-             {
-                 "data": "Startdate",
-                 render: function (data) {
             
-                     var date = new Date(parseInt(data.match(/\/Date\((\d+)\)\//)[1]));              
-                     var day = ('0' + date.getDate()).slice(-2);
-                     var month = ('0' + (date.getMonth() + 1)).slice(-2); 
-                     var year = date.getFullYear();
-                     return day + '/' + month + '/' + year; 
-                 }
-             },
-            //{ "data": "Startdate", "className": "center", "autoWidth": true },
-
+             //{
+             //    "data": "Startdate",
+             //    render: function (data) {
+             //        // Convert the /Date(1729189800000)/ format to a Date object
+             //        var date = new Date(parseInt(data.match(/\/Date\((\d+)\)\//)[1]));
+             //        // Format the date to dd/mm/yyyy
+             //        var day = ('0' + date.getDate()).slice(-2);
+             //        var month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
+             //        var year = date.getFullYear();
+             //        return day + '/' + month + '/' + year; // Return formatted date
+             //    }
+             //},
+           
             {
                 "data": "Duration",
                 render: function (data) {
@@ -454,8 +454,7 @@ function ShowQuestions() {
                     return day + '/' + month + '/' + year; // Return formatted date
                 }
             },
-            //{ "data": "Expirydate", "className": "center", "autoWidth": true },
-
+           
               {
                   
                   mRender: function (data, type, row) {
@@ -550,44 +549,29 @@ function EditTest(Id) {
     })
 }
 
-//function Update(ID) {
-
-    
-
-//    $.ajax({
-
-//        type: "POST",
-//        url: "/OnlineTest/Update",
-//        data: { testid: ID },
-//        success: function (Result) {
-//            if (Result == "Success") {
-//                alert("Test Deleted Successfully:");
-//            }
-//        },
-
-//        error: function () {
-
-//            alert("Test is not Deleted:");
-
-//        }
-
-//    })
-
-
-//}
 
 function Update() {
 
-    var updatetest = $("#testmodify2").serialize();
-    var updat = JSON.stringify(updatetest);
-    alert(updat);
+    //var updatetest = $("#testmodify2").serialize();
+    //var updat = JSON.stringify(updatetest);
+    var update = {
+        TestId: $('#testid').val(),
+        TestName: $('#testname1').val(),
+        Startdate: $('#startdate1').val(),
+        Duration: $('#duration1').val(),
+        Expirydate: $('#ExpiryDate1').val(),             
+    };
+
+    alert(update);
 
     $.ajax({
         type: "POST",
         url: "/OnlineTest/Update",
         datatype: "json",
-        data: updat,
+        data: update,
         success: function (result) {
+
+            
             if (result.success)
             {
                 alert("Test updated successfully: " + result.message);
@@ -601,3 +585,4 @@ function Update() {
         }
     });
 }
+
