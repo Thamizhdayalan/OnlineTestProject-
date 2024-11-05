@@ -239,7 +239,7 @@ namespace OnlineTestProject.Controllers
 
         }
 
-        public JsonResult QuestionList(DataTableParameters dT)
+        public JsonResult ListOfTests(DataTableParameters dT)
         {
             //var QuesList = dbcontext.TestTables.ToList();
             var QuesList1 = new DataTableResultSet_TestTableList();
@@ -294,7 +294,7 @@ namespace OnlineTestProject.Controllers
         }
 
 
-
+        [HttpPost]
         public JsonResult Update(TestTable upd)
         {
             //var Update1 = JsonConvert.DeserializeObject<TestTable>(upd);
@@ -316,6 +316,18 @@ namespace OnlineTestProject.Controllers
 
             return Json(new { success = true, message = "Success" }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public JsonResult ListOfQuestions(DataTableParameters dT)
+        {
+            //var QuesList = dbcontext.TestTables.ToList();
+            var QuesList1 = new DataTableResultSet_QuestionList();
+            QuesList1.draw = dT.Draw;
+            var QuesList2 = dbcontext.Questions.ToList();
+            QuesList1.recordsTotal = QuesList2.Count;
+            QuesList1.recordsFiltered = QuesList2.Count;
+            QuesList1.data = QuesList2;
+            return Json(QuesList1, JsonRequestBehavior.AllowGet);
         }
     }
 

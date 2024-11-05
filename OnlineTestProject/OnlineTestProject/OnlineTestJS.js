@@ -369,10 +369,9 @@ function Create()
 //    Expirydate: $("#ExpiryDate").val()
 //};
 
-function ShowQuestions() {
+function TestList() {
     
-
-    $("#Questionlist").DataTable({
+    $("#Testlist").DataTable({
         // Uncomment if needed
          //destroy: true,
         processing: true,
@@ -382,7 +381,7 @@ function ShowQuestions() {
         ajax: {
             type: "GET",
             contentType: "application/json",  
-            url: "/OnlineTest/QuestionList",
+            url: "/OnlineTest/ListOfTests",
             //datatype: "json",
              
             //dataSrc: "", // Use this if the response is directly an array
@@ -415,27 +414,27 @@ function ShowQuestions() {
                 }
             },
 
-             {
-                 "data": "Startdate",
-                 "render": function (data) {
-                     return moment(data).format("DD/MM/YYYY");
-                 }, "autowidth": true
-
-             },
-
-            
              //{
              //    "data": "Startdate",
-             //    render: function (data) {
-             //        // Convert the /Date(1729189800000)/ format to a Date object
-             //        var date = new Date(parseInt(data.match(/\/Date\((\d+)\)\//)[1]));
-             //        // Format the date to dd/mm/yyyy
-             //        var day = ('0' + date.getDate()).slice(-2);
-             //        var month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
-             //        var year = date.getFullYear();
-             //        return day + '/' + month + '/' + year; // Return formatted date
-             //    }
+             //    "render": function (data) {
+             //        return moment(data).format("DD/MM/YYYY");
+             //    }, "autowidth": true
+
              //},
+
+            
+             {
+                 "data": "Startdate",
+                 render: function (data) {
+                     // Convert the /Date(1729189800000)/ format to a Date object
+                     var date = new Date(parseInt(data.match(/\/Date\((\d+)\)\//)[1]));
+                     // Format the date to dd/mm/yyyy
+                     var day = ('0' + date.getDate()).slice(-2);
+                     var month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
+                     var year = date.getFullYear();
+                     return day + '/' + month + '/' + year; // Return formatted date
+                 }
+             },
            
             {
                 "data": "Duration",
@@ -513,7 +512,7 @@ function DeleteTest(ID) {
 function EditTest(Id) {
 
    
-    $("#testmodify1").hide();
+    $("#testmodify").hide();
     $.ajax({
         
         type   :  "GET",
@@ -541,13 +540,19 @@ function EditTest(Id) {
             var DURATION = res.Duration.Hours + ":" + res.Duration.Minutes;
            alert(DURATION);
 
-            $("#testid").val(res.TestId);
-            $("#testname1").val(res.TestName);   
-            $("#startdate1").val(startdate);
-            $("#duration1").val(DURATION);
-            $("#ExpiryDate1").val(expirydate);
-            //$("#myModal1").modal('show');
-            $("#testmodify1").show();          
+           document.getElementById("testmodification").elements["TestId"].value = res.TestId;
+           document.getElementById("testmodification").elements["TestName"].value = res.TestName;
+           document.getElementById("testmodification").elements["Startdate"].value = startdate;
+           document.getElementById("testmodification").elements["Duration"].value = DURATION;
+           document.getElementById("testmodification").elements["Expirydate"].value = expirydate;
+
+            //$("#testid").val(res.TestId);
+            //$("#TestName").val(res.TestName);
+            //$("#Startdate").val(startdate);
+            //$("#Duration").val(DURATION);
+            //$("#Expirydate").val(expirydate);
+            ////$("#myModal1").modal('show');
+            $("#testmodify").show();
 
         },
 
@@ -561,23 +566,23 @@ function EditTest(Id) {
 
 function Update() {
 
-    //var updatetest = $("#testmodify2").serialize();
+    var updatetest = $("#testmodification").serialize();
     //var updat = JSON.stringify(updatetest);
-    var update = {
-        TestId: $('#testid').val(),
-        TestName: $('#testname1').val(),
-        Startdate: $('#startdate1').val(),
-        Duration: $('#duration1').val(),
-        Expirydate: $('#ExpiryDate1').val(),             
-    };
+    //var update = {
+    //    TestId: $('#testid').val(),
+    //    TestName: $('#updatetestname').val(),
+    //    Startdate: $('#updatestartdate').val(),
+    //    Duration: $('#updateduration').val(),
+    //    Expirydate: $('#updateExpiryDate').val(),
+    //};
 
-    alert(update);
+    alert(updatetest);
 
     $.ajax({
         type: "POST",
         url: "/OnlineTest/Update",
         datatype: "json",
-        data: update,
+        data: updatetest,
         success: function (result) {
 
             
@@ -595,3 +600,71 @@ function Update() {
     });
 }
 
+function ViewQuestions() {
+
+    alert("Hi");
+
+    $("#Questionlist").DataTable({
+        //"destroy": true,
+        "processing": true,
+        "pagingtype": "full_numbers",
+        "ordering": false,
+
+        ajax: {
+
+            type: "GET",
+            contentType: "application/json",
+            url: "/OnlineTest/ListOfQuestions",
+            //dataSrc: "",
+            data: function (data) {
+
+               
+                //Empty()
+                alert(JSON.stringify(data));
+               return JSON.stringify(data);
+
+
+            },
+
+            error: function (xhr, err) {
+                alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                alert("responseText: " + xhr.responseText);
+            }
+
+        },
+
+        "columns": [
+
+            { "data": "SubjectId", "className": "center", "autowidth": true },
+            { "data": "QuestionText", "className": "center", "autowidth": true },
+
+             {
+                 "data": "CreatedDate",
+                 "render": function (data) {
+                     return moment(data).format("DD/MM/YYYY");
+                 }, "autowidth": true
+
+             },
+
+
+           {
+
+               mRender: function (data, type, row) {
+
+                   return '<a onclick="EditSubject(' + row.SubjectId + ')" class = "btn btn-warning" >Edit</a>'
+
+               },
+           },
+    {
+
+        mRender: function (data, type, row) {
+            return '<a onclick="DeleteSubject (' + row.SubjectId + ')" class = "btn btn-primary" >DELETE</a>'
+
+        }
+    },
+
+
+        ]
+
+    });
+}
