@@ -14,12 +14,12 @@ $(document).ready(function() {
         data: {  email:EMAIL , pwd :PWD },
 
         success: function(result,mes){
-            alert(JSON.stringify(result));
+            //alert(JSON.stringify(result));
             var res = result;
-            alert(res.AdminId >0);
+            //alert(res.AdminId >0);
             if (result.length > 0) {
 
-                alert(mes);
+                //alert(mes);
                 window.location.href = '/OnlineTest/QuestionCreation';
             }
             else {
@@ -538,22 +538,32 @@ function EditTest(Id) {
             alert(expirydate);
 
             var DURATION = res.Duration.Hours + ":" + res.Duration.Minutes;
-           alert(DURATION);
+            alert(DURATION);
+            //this method for, if the we have more than one form but the the id names are same means we should use this method. 
+            //in this method we mentioned the id in inside the form id//
 
-           document.getElementById("testmodification").elements["TestId"].value = res.TestId;
-           document.getElementById("testmodification").elements["TestName"].value = res.TestName;
-           document.getElementById("testmodification").elements["Startdate"].value = startdate;
-           document.getElementById("testmodification").elements["Duration"].value = DURATION;
-           document.getElementById("testmodification").elements["Expirydate"].value = expirydate;
+            $("#testmodification").find("[name='TestId']").val(res.TestId);
+            $("#testmodification").find("[name='TestName']").val(res.TestName);
+            $("#testmodification").find("[name='Startdate']").val(res.startdate);
+            $("#testmodification").find("[name='Duration']").val(res.DURATION);
+            $("#testmodification").find("[name='Expirydate']").val(res.expirydate);
+            $("#testmodify").show();
 
+            //this is for javascript//
+           //document.getElementById("testmodification").elements["TestId"].value = res.TestId;
+           //document.getElementById("testmodification").elements["TestName"].value = res.TestName;
+           //document.getElementById("testmodification").elements["Startdate"].value = startdate;
+           //document.getElementById("testmodification").elements["Duration"].value = DURATION;
+            //document.getElementById("testmodification").elements["Expirydate"].value = expirydate;
+
+            //this method for different id names for more than one form//
             //$("#testid").val(res.TestId);
             //$("#TestName").val(res.TestName);
             //$("#Startdate").val(startdate);
             //$("#Duration").val(DURATION);
             //$("#Expirydate").val(expirydate);
             ////$("#myModal1").modal('show');
-            $("#testmodify").show();
-
+           
         },
 
         error: function (response) {
@@ -615,6 +625,7 @@ function ViewQuestions() {
             type: "GET",
             contentType: "application/json",
             url: "/OnlineTest/ListOfQuestions",
+            dataType: 'json',
             //dataSrc: "",
             data: function (data) {
 
@@ -651,14 +662,14 @@ function ViewQuestions() {
 
                mRender: function (data, type, row) {
 
-                   return '<a onclick="EditSubject(' + row.SubjectId + ')" class = "btn btn-warning" >Edit</a>'
+                   return '<a onclick="EditQuestion(' + row.SubjectId + ')" class = "btn btn-warning" >Edit</a>'
 
                },
            },
     {
 
         mRender: function (data, type, row) {
-            return '<a onclick="DeleteSubject (' + row.SubjectId + ')" class = "btn btn-primary" >DELETE</a>'
+            return '<a onclick="DeleteQuestion (' + row.SubjectId + ')" class = "btn btn-primary" >DELETE</a>'
 
         }
     },

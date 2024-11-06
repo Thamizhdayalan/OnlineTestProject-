@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
-//using OnlineTestProject.Models;
+using OnlineTestProject.Models;
 using System.Collections.Concurrent;
 using System.Collections;
 using System.Data.OleDb;
@@ -318,18 +318,26 @@ namespace OnlineTestProject.Controllers
 
         }
 
+        [HttpGet]
         public JsonResult ListOfQuestions(DataTableParameters dT)
         {
-            //var QuesList = dbcontext.TestTables.ToList();
-            var QuesList1 = new DataTableResultSet_QuestionList();
-            QuesList1.draw = dT.Draw;
-            var QuesList2 = dbcontext.Questions.ToList();
-            QuesList1.recordsTotal = QuesList2.Count;
-            QuesList1.recordsFiltered = QuesList2.Count;
-            QuesList1.data = QuesList2;
-            return Json(QuesList1, JsonRequestBehavior.AllowGet);
+           
+            var QuesListObj = new DataTableResultSet_QuestionList();
+            QuesListObj.draw = dT.Draw;
+            var ShowQuestions = dbcontext.QuestionList().ToList();
+            QuesListObj.recordsTotal = ShowQuestions.Count;
+            QuesListObj.recordsFiltered = ShowQuestions.Count;
+            QuesListObj.data = ShowQuestions.ToList();
+            //string x = JsonConvert.SerializeObject(QuesListObj);
+            return Json(QuesListObj, JsonRequestBehavior.AllowGet);
         }
     }
-
 }
+
+//this method is used storeprocedure to show subjects//
+//public JsonResult ShowSubjects()
+//{
+//    var SubjectList = dbcontext.showsubjects().ToList();
+//    return Json(SubjectList, JsonRequestBehavior.AllowGet);
+//}
 

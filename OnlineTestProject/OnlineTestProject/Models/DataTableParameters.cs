@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
-namespace OnlineTestProject
+namespace OnlineTestProject.Models
 {
     public class DataTableParameters
     {
@@ -110,9 +110,9 @@ namespace OnlineTestProject
     {
 
 
-        public List<Question> data = new List<Question>();
+        public List<QuestionList_Result> data = new List<QuestionList_Result>();
 
-        public List<Question> ContainerData = new List<Question>();
+        public List<QuestionList_Result> ContainerData = new List<QuestionList_Result>();
 
 
         /// <summary>value of draw parameter sent by client</summary>
