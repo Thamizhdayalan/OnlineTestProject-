@@ -33,29 +33,30 @@
             
             <div class="col-md-6">
                   @* <textarea class="form-control" id="questions" name="questions" rows="4" cols="50"></textarea>**@
-
+                  @Html.Label("", "Enter Question:")
                 @Html.TextArea("Question", "", new { @class = "form-control", @rows = 4, @cols = 50, required = "required" })<br />
 
                 <form id ="Options" name="Options">
-                @Html.TextBox("IndexA", "", new { @class = "form-control" })<br />
+                      @Html.Label("", "Enter Options:")
+                @Html.TextBox("IndexA", "A", new { @class = "form-control", })<br />
 
-                @Html.TextBox("Option1", "", new { @class = "form-control" })<br />
+                @Html.TextBox("Option1", "", new { @class = "form-control", @placeholder = "Option1"})<br />
 
-                     @Html.TextBox("IndexB", "", new { @class = "form-control" })<br />
+                     @Html.TextBox("IndexB", "B", new { @class = "form-control" })<br />
 
-                @Html.TextBox("Option2", "", new { @class = "form-control" })<br />
+                @Html.TextBox("Option2", "", new { @class = "form-control", @placeholder = "Option2" })<br />
 
-                     @Html.TextBox("IndexC", "", new { @class = "form-control" })<br />
+                     @Html.TextBox("IndexC", "C", new { @class = "form-control" })<br />
 
-                @Html.TextBox("Option3", "", new { @class = "form-control" })<br />
+                @Html.TextBox("Option3", "", new { @class = "form-control" , @placeholder = "Option3"})<br />
 
-                     @Html.TextBox("IndexD", "", new { @class = "form-control" })<br />
+                     @Html.TextBox("IndexD", "D", new { @class = "form-control" })<br />
 
-                @Html.TextBox("Option4", "", new { @class = "form-control" })<br />
+                @Html.TextBox("Option4", "", new { @class = "form-control", @placeholder = "Option4" })<br />
 
-                     @Html.TextBox("AnsIndex", "", new { @class = "form-control" })<br />
+                     @Html.TextBox("AnsIndex", "", new { @class = "form-control" , @placeholder = "AnswerIndex"})<br />
 
-                @Html.TextBox("Answer", "", new { @class = "form-control" })  <br /> 
+                @Html.TextBox("Answer", "", new { @class = "form-control", @placeholder = "Answer" })  <br /> 
                     </form>            
                <button type="button" class="btn btn-warning" onclick="Submit()">Submit</button>
 

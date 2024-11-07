@@ -22,38 +22,25 @@
 
 </head>
 <body>
-    @*<div class="container">
-        <h2>WELCOME TO QUESTION CREATION PAGE ADMIN</h2>
-        <h3 >Choose Subject</h3>
-        <div class="rows">
-            <div class="col-md-2">
-        <select id="Subjects" class="form-select">
-            <option value ="Select" >Select</option>
-            <option  value=".Net">.Net</option>
-            <option value="SQL">SQL</option>
-            <option value="Java">Java</option>
-        </select><br /><br />
-                </div>
-</div>
-        
-        
-    </div>*@
+   
 
     <div class="container">
          <div class="rows">
-            <div class="col-md-3">
+            <div class="col-3"></div>
+             <div class="col-6">
         @Html.Label("","Enter Subject")
         @Html.TextBox("subjects","", new{@class= "form-control mt-3"})<br />
         <button type="button" class="btn btn-warning" onclick="SaveSub()">Save</button>
     </div>
-             <div class="col-md-9"></div>
+             <div class="col-3"></div>
      </div>
-        </div><br />
+        </div>
+    <br />
 
     <div class="container">
        <div class="rows ">
-           <div class="col-md-2"></div>
-           <div class="col-md-8">
+           <div class="col-md-3"></div>
+           <div class="col-md-6">
              <table id="sub" class ="table table-striped table-bordered">
               <thead>
                <tr>
@@ -66,7 +53,7 @@
            </thead>
             </table>
                </div>
-           <div class="col-md-2"></div>
+           <div class="col-md-3"></div>
          </div>
         </div>
               

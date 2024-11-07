@@ -273,6 +273,7 @@ function Next() {
 
 
 function Submit() {
+   
     var Ques = {
         QuestionId: 0,
         SubjectId: $("#Subjects").val(),
@@ -280,34 +281,34 @@ function Submit() {
     };
 
     var Question = JSON.stringify(Ques);
-
+   
     // Create an array to hold options
     var optionsArray = [];
 
     // Collecting options based on the input fields
     optionsArray.push({
-        //QuestionId: documnet.getElementById('Question').value,
+        SubjectId: document.getElementById('Subjects').value,
         OptionIndex: document.getElementById('IndexA').value,
         OptionText: document.getElementById('Option1').value,
         IsCorrect: (document.getElementById('AnsIndex').value === 'A') // Update logic as needed
     });
 
     optionsArray.push({
-        //QuestionId: documnet.getElementById('Question').value,
+        SubjectId: document.getElementById('Subjects').value,
         OptionIndex: document.getElementById('IndexB').value,
         OptionText: document.getElementById('Option2').value,
         IsCorrect: (document.getElementById('AnsIndex').value === 'B')
     });
 
     optionsArray.push({
-        //QuestionId: documnet.getElementById('Question').value,
+        SubjectId: document.getElementById('Subjects').value,
         OptionIndex: document.getElementById('IndexC').value,
         OptionText: document.getElementById('Option3').value,
         IsCorrect: (document.getElementById('AnsIndex').value === 'C')
     });
 
     optionsArray.push({
-        //QuestionId: documnet.getElementById('Question').value,
+        SubjectId: document.getElementById('Subjects').value,
         OptionIndex: document.getElementById('IndexD').value,
         OptionText: document.getElementById('Option4').value,
         IsCorrect: (document.getElementById('AnsIndex').value === 'D')
@@ -315,7 +316,7 @@ function Submit() {
 
     // Convert the options array to JSON
     var Option3 = JSON.stringify(optionsArray);
-
+    
     $.ajax({
         type: "POST",
         url: "/OnlineTest/StoreQuestions",
@@ -544,9 +545,9 @@ function EditTest(Id) {
 
             $("#testmodification").find("[name='TestId']").val(res.TestId);
             $("#testmodification").find("[name='TestName']").val(res.TestName);
-            $("#testmodification").find("[name='Startdate']").val(res.startdate);
-            $("#testmodification").find("[name='Duration']").val(res.DURATION);
-            $("#testmodification").find("[name='Expirydate']").val(res.expirydate);
+            $("#testmodification").find("[name='Startdate']").val(startdate);
+            $("#testmodification").find("[name='Duration']").val(DURATION);
+            $("#testmodification").find("[name='Expirydate']").val(expirydate);
             $("#testmodify").show();
 
             //this is for javascript//
@@ -647,6 +648,7 @@ function ViewQuestions() {
         "columns": [
 
             { "data": "SubjectId", "className": "center", "autowidth": true },
+             { "data": "QuestionId", "className": "center", "autowidth": true },
             { "data": "QuestionText", "className": "center", "autowidth": true },
 
              {
@@ -657,19 +659,27 @@ function ViewQuestions() {
 
              },
 
+             {
+                 "data": null,
+                 "render": function (data, type, row) {
+                     return '<input type="checkbox" class="question-checkbox" value="' + row.QuestionId + '" />';
+                 },
+                 "orderable": false
+             },
+
 
            {
 
                mRender: function (data, type, row) {
 
-                   return '<a onclick="EditQuestion(' + row.SubjectId + ')" class = "btn btn-warning" >Edit</a>'
+                   return '<a onclick="EditQuestion(' + row.QuestionId + ')" class = "btn btn-warning" >Edit</a>'
 
                },
            },
     {
 
         mRender: function (data, type, row) {
-            return '<a onclick="DeleteQuestion (' + row.SubjectId + ')" class = "btn btn-primary" >DELETE</a>'
+            return '<a onclick="DeleteQuestion (' + row.QuestionId + ')" class = "btn btn-primary" >DELETE</a>'
 
         }
     },
@@ -678,4 +688,30 @@ function ViewQuestions() {
         ]
 
     });
+}
+
+function DeleteQuestion(ID) {
+
+    alert(ID);
+
+    $.ajax({
+
+        type: "POST",
+        url: "/OnlineTest/RemoveQuestion",
+        data: { SUBJETID: ID },
+        success: function (Result) {
+            if (Result == "Success") {
+                alert("Test Deleted Successfully:");
+            }
+        },
+
+        error: function () {
+
+            alert("Test is not Deleted:");
+
+        }
+
+    })
+
+
 }

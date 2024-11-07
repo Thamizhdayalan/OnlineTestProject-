@@ -51,6 +51,7 @@ values ('Which of the following are some common RDBMS in use?'),('What command i
 
 create table Options( 
 OptionId int primary key identity(1,1),
+SubjectId int ,
 QuestionId int foreign key references Questions (QuestionId) not null,
 OptionIndex varchar (5) not null,
 OptionText varchar(100) not null,
@@ -58,11 +59,11 @@ IsCorrect bit
 )
 
 drop table Options
-select * from Questions
+select * from Options
 
 select * from Options
 
-truncate table questions
+truncate table subjects
 
 insert into Options(QuestionId,OptionIndex,OptionText)
 values (1,'A','Oracle'),(1,'B','MySQL'),(1,'C','HeidiSQL'),(1,'D','All of the above'),
@@ -182,15 +183,22 @@ delete from subjects
 where subjectid=@subjectid
 end
 
-create procedure StoreOptions @QuestionId int, @optionIndex varchar(10), @OptionText varchar (200),@iscorrect bit
+create procedure StoreOptions @SubjectId int, @QuestionId int, @optionIndex varchar(10), @OptionText varchar (200),@iscorrect bit
 as 
 begin 
-insert into options (Questionid, OptionIndex,optiontext,iscorrect)
-values(@QuestionId,@optionIndex,@OptionText,@iscorrect)
+insert into options (SubjectId,Questionid, OptionIndex,optiontext,iscorrect)
+values(@SubjectId,@QuestionId,@optionIndex,@OptionText,@iscorrect)
 end 
 
+drop procedure StoreOptions
 
 select * from options
 select * from questions
 select * from testtable
 select * from subjects
+
+create procedure QuestionList 
+as 
+begin 
+select * from Questions
+end

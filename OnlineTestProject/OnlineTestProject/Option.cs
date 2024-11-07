@@ -15,6 +15,7 @@ namespace OnlineTestProject
     public partial class Option
     {
         public int OptionId { get; set; }
+        public Nullable<int> SubjectId { get; set; }
         public int QuestionId { get; set; }
         public string OptionIndex { get; set; }
         public string OptionText { get; set; }

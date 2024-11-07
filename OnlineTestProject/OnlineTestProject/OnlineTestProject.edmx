@@ -13,7 +13,7 @@
           <EntitySet Name="TestQuestionsMapping" EntityType="OnlineTestProjectModel.Store.TestQuestionsMapping" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TestTable" EntityType="OnlineTestProjectModel.Store.TestTable" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserInfo" EntityType="OnlineTestProjectModel.Store.UserInfo" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__Options__Questio__7849DB76" Association="OnlineTestProjectModel.Store.FK__Options__Questio__7849DB76">
+          <AssociationSet Name="FK__Options__Questio__251C81ED" Association="OnlineTestProjectModel.Store.FK__Options__Questio__251C81ED">
             <End Role="Questions" EntitySet="Questions" />
             <End Role="Options" EntitySet="Options" />
           </AssociationSet>
@@ -35,6 +35,7 @@
             <PropertyRef Name="OptionId" />
           </Key>
           <Property Name="OptionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectId" Type="int" />
           <Property Name="QuestionId" Type="int" Nullable="false" />
           <Property Name="OptionIndex" Type="varchar" Nullable="false" MaxLength="5" />
           <Property Name="OptionText" Type="varchar" Nullable="false" MaxLength="100" />
@@ -88,7 +89,7 @@
           <Property Name="Registered_date" Type="date" />
           <Property Name="Logininfo" Type="datetime" />
         </EntityType>
-        <Association Name="FK__Options__Questio__7849DB76">
+        <Association Name="FK__Options__Questio__251C81ED">
           <End Role="Questions" Type="OnlineTestProjectModel.Store.Questions" Multiplicity="1" />
           <End Role="Options" Type="OnlineTestProjectModel.Store.Options" Multiplicity="*" />
           <ReferentialConstraint>
@@ -107,12 +108,14 @@
         <Function Name="DeleteSubject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="subjectid" Type="int" Mode="In" />
         </Function>
+        <Function Name="QuestionList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="savequestions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="questiontext" Type="varchar" Mode="In" />
           <Parameter Name="Subject" Type="varchar" Mode="In" />
         </Function>
         <Function Name="showsubjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="StoreOptions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SubjectId" Type="int" Mode="In" />
           <Parameter Name="QuestionId" Type="int" Mode="In" />
           <Parameter Name="optionIndex" Type="varchar" Mode="In" />
           <Parameter Name="OptionText" Type="varchar" Mode="In" />
@@ -156,11 +159,6 @@
           <FunctionImport Name="DeleteSubject">
           <Parameter Name="subjectid" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="Options" EntityType="OnlineTestProjectModel.Option" />
-          <AssociationSet Name="FK__Options__Questio__6BE40491" Association="OnlineTestProjectModel.FK__Options__Questio__6BE40491">
-            <End Role="Question" EntitySet="Questions" />
-            <End Role="Option" EntitySet="Options" />
-          </AssociationSet>
           <FunctionImport Name="StoreOptions">
             <Parameter Name="QuestionId" Mode="In" Type="Int32" />
             <Parameter Name="optionIndex" Mode="In" Type="String" />
@@ -169,6 +167,19 @@
           </FunctionImport>
           <EntitySet Name="TestQuestionsMappings" EntityType="OnlineTestProjectModel.TestQuestionsMapping" />
           <EntitySet Name="TestTables" EntityType="OnlineTestProjectModel.TestTable" />
+          <FunctionImport Name="QuestionList" ReturnType="Collection(OnlineTestProjectModel.QuestionList_Result)" />
+          <FunctionImport Name="StoreOptions1">
+            <Parameter Name="SubjectId" Mode="In" Type="Int32" />
+            <Parameter Name="QuestionId" Mode="In" Type="Int32" />
+            <Parameter Name="optionIndex" Mode="In" Type="String" />
+            <Parameter Name="OptionText" Mode="In" Type="String" />
+            <Parameter Name="iscorrect" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <EntitySet Name="Options" EntityType="OnlineTestProjectModel.Option" />
+          <AssociationSet Name="FK__Options__Questio__251C81ED" Association="OnlineTestProjectModel.FK__Options__Questio__251C81ED">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="Option" EntitySet="Options" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Question">
           <Key>
@@ -178,7 +189,7 @@
           <Property Name="QuestionId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="QuestionText" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Options" Relationship="OnlineTestProjectModel.FK__Options__Questio__6BE40491" FromRole="Question" ToRole="Option" />
+          <NavigationProperty Name="Options" Relationship="OnlineTestProjectModel.FK__Options__Questio__251C81ED" FromRole="Question" ToRole="Option" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -224,29 +235,6 @@
           <Property Type="Int32" Name="SubjectId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Subject" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="Option">
-          <Key>
-            <PropertyRef Name="OptionId" />
-          </Key>
-          <Property Type="Int32" Name="OptionId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="QuestionId" Nullable="false" />
-          <Property Type="String" Name="OptionIndex" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="OptionText" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="Boolean" Name="IsCorrect" />
-          <NavigationProperty Name="Question" Relationship="OnlineTestProjectModel.FK__Options__Questio__6BE40491" FromRole="Option" ToRole="Question" />
-        </EntityType>
-        <Association Name="FK__Options__Questio__6BE40491">
-          <End Type="OnlineTestProjectModel.Question" Role="Question" Multiplicity="1" />
-          <End Type="OnlineTestProjectModel.Option" Role="Option" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="QuestionId" />
-            </Principal>
-            <Dependent Role="Option">
-              <PropertyRef Name="QuestionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="TestQuestionsMapping">
           <Key>
             <PropertyRef Name="TestId" />
@@ -267,6 +255,36 @@
           <Property Type="Time" Name="Duration" Precision="7" />
           <Property Type="DateTime" Name="Expirydate" Precision="0" />
         </EntityType>
+        <ComplexType Name="QuestionList_Result">
+          <Property Type="Int32" Name="QuestionId" Nullable="false" />
+          <Property Type="Int32" Name="SubjectId" Nullable="true" />
+          <Property Type="String" Name="QuestionText" Nullable="false" MaxLength="500" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Type="Int32" Name="OptionId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SubjectId" />
+          <Property Type="Int32" Name="QuestionId" Nullable="false" />
+          <Property Type="String" Name="OptionIndex" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OptionText" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsCorrect" />
+          <NavigationProperty Name="Question" Relationship="OnlineTestProjectModel.FK__Options__Questio__251C81ED" FromRole="Option" ToRole="Question" />
+        </EntityType>
+        <Association Name="FK__Options__Questio__251C81ED">
+          <End Type="OnlineTestProjectModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="OnlineTestProjectModel.Option" Role="Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="Option">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -341,18 +359,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="DeleteSubject" FunctionName="OnlineTestProjectModel.Store.DeleteSubject" />
-          <EntitySetMapping Name="Options">
-            <EntityTypeMapping TypeName="OnlineTestProjectModel.Option">
-              <MappingFragment StoreEntitySet="Options">
-                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
-                <ScalarProperty Name="OptionText" ColumnName="OptionText" />
-                <ScalarProperty Name="OptionIndex" ColumnName="OptionIndex" />
-                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
-                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="StoreOptions" FunctionName="OnlineTestProjectModel.Store.StoreOptions" />
           <EntitySetMapping Name="TestQuestionsMappings">
             <EntityTypeMapping TypeName="OnlineTestProjectModel.TestQuestionsMapping">
               <MappingFragment StoreEntitySet="TestQuestionsMapping">
@@ -372,6 +378,29 @@
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="TestName" ColumnName="TestName" />
                 <ScalarProperty Name="TestId" ColumnName="TestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="QuestionList" FunctionName="OnlineTestProjectModel.Store.QuestionList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="OnlineTestProjectModel.QuestionList_Result">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="StoreOptions1" FunctionName="OnlineTestProjectModel.Store.StoreOptions" />
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="OnlineTestProjectModel.Option">
+              <MappingFragment StoreEntitySet="Options">
+                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+                <ScalarProperty Name="OptionText" ColumnName="OptionText" />
+                <ScalarProperty Name="OptionIndex" ColumnName="OptionIndex" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

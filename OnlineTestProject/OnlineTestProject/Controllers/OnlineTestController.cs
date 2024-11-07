@@ -207,7 +207,7 @@ namespace OnlineTestProject.Controllers
                 //option.Question = questions1;
                 option.QuestionId = quesid; // Bind QuestionId to the option
 
-                dbcontext.StoreOptions(option.QuestionId, option.OptionIndex, option.OptionText, option.IsCorrect);
+                dbcontext.StoreOptions1(option.SubjectId,option.QuestionId, option.OptionIndex, option.OptionText, option.IsCorrect);
                 dbcontext.SaveChanges();
             }
 
@@ -321,7 +321,7 @@ namespace OnlineTestProject.Controllers
         [HttpGet]
         public JsonResult ListOfQuestions(DataTableParameters dT)
         {
-           
+
             var QuesListObj = new DataTableResultSet_QuestionList();
             QuesListObj.draw = dT.Draw;
             var ShowQuestions = dbcontext.QuestionList().ToList();
@@ -330,6 +330,18 @@ namespace OnlineTestProject.Controllers
             QuesListObj.data = ShowQuestions.ToList();
             //string x = JsonConvert.SerializeObject(QuesListObj);
             return Json(QuesListObj, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult RemoveQuestion(int SUBJETID)
+        {
+
+            var del = dbcontext.Questions.Find(SUBJETID);
+            dbcontext.Questions.Remove(del);
+            dbcontext.SaveChanges();
+            //COMMIT NOW
+            return Json("Success");
+
         }
     }
 }
