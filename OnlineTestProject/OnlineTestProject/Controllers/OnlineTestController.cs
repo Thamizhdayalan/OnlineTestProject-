@@ -319,17 +319,31 @@ namespace OnlineTestProject.Controllers
         }
 
         [HttpGet]
-        public JsonResult ListOfQuestions(DataTableParameters dT)
+        public JsonResult ListOfQuestions(DataTableParameters dT, int SUBJECTID)
         {
 
             var QuesListObj = new DataTableResultSet_QuestionList();
             QuesListObj.draw = dT.Draw;
-            var ShowQuestions = dbcontext.QuestionList().ToList();
-            QuesListObj.recordsTotal = ShowQuestions.Count;
-            QuesListObj.recordsFiltered = ShowQuestions.Count;
-            QuesListObj.data = ShowQuestions.ToList();
-            //string x = JsonConvert.SerializeObject(QuesListObj);
-            return Json(QuesListObj, JsonRequestBehavior.AllowGet);
+            if (SUBJECTID != 0)
+            {
+                var ShowQuestions = dbcontext.QuestionList().Where(s => s.SubjectId == SUBJECTID).ToList();
+                QuesListObj.recordsTotal = ShowQuestions.Count;
+                QuesListObj.recordsFiltered = ShowQuestions.Count;
+                QuesListObj.data = ShowQuestions.ToList();
+                //string x = JsonConvert.SerializeObject(QuesListObj);
+                return Json(QuesListObj, JsonRequestBehavior.AllowGet);
+            }
+
+            else
+            {
+                var ShowQuestions = dbcontext.QuestionList().ToList();
+                QuesListObj.recordsTotal = ShowQuestions.Count;
+                QuesListObj.recordsFiltered = ShowQuestions.Count;
+                QuesListObj.data = ShowQuestions.ToList();
+                //string x = JsonConvert.SerializeObject(QuesListObj);
+                return Json(QuesListObj, JsonRequestBehavior.AllowGet);
+            }
+
         }
 
 
@@ -343,13 +357,38 @@ namespace OnlineTestProject.Controllers
             return Json("Success");
 
         }
+
+        public ActionResult QuestionViewAndSelectionPage()
+        {
+            return View();
+        }
+
+
+        public ActionResult SelectTestTypeDropdown()
+        {
+            var Testlist = dbcontext.TestTables.ToList();
+            List<SelectListItem> TESTS = Testlist.ConvertAll(a => new SelectListItem() { Text = a.TestName.ToString(), Value = a.TestId.ToString() }).ToList();
+            ViewData["TestList"] = TESTS;
+
+            var subjectlist = dbcontext.Subjects1.ToList();
+            List<SelectListItem> Subj = subjectlist.ConvertAll(a => new SelectListItem() { Text = a.Subject.ToString(), Value = a.SubjectId.ToString() }).ToList();
+            ViewData["Subject"] = Subj;
+
+            return View("QuestionViewAndSelectionPage");
+
+        }
+
+        //public ActionResult SubjecstDropdownForQuestion()
+        //{
+        //    var subjectlist = dbcontext.Subjects1.ToList();
+        //    List<SelectListItem> Subj = subjectlist.ConvertAll(a => new SelectListItem() { Text = a.Subject.ToString(), Value = a.SubjectId.ToString() }).ToList();
+        //    ViewData["Subject"] = Subj;
+        //    //return Json(subjectlist, JsonRequestBehavior.AllowGet);
+        //    return View("QuestionViewAndSelectionPage");
+
+        //}
+
     }
 }
 
-//this method is used storeprocedure to show subjects//
-//public JsonResult ShowSubjects()
-//{
-//    var SubjectList = dbcontext.showsubjects().ToList();
-//    return Json(SubjectList, JsonRequestBehavior.AllowGet);
-//}
 

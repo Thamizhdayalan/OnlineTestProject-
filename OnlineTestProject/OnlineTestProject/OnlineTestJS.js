@@ -171,31 +171,31 @@ function DeleteSubject(id) {
 }
 
 
-function Next() {
+//function Next() {
 
-    alert("hi");
+//    alert("hi");
 
-    $.ajax({
+//    $.ajax({
 
-        type: "POST",
-        url: "/OnlineTest/SubjecstDropdown",
-        dataType: 'json',
+//        type: "POST",
+//        url: "/OnlineTest/SubjecstDropdown",
+//        dataType: 'json',
 
-        success: function (result) {
+//        success: function (result) {
 
-            //alert(JSON.stringify(result));
+//            //alert(JSON.stringify(result));
 
 
-            window.location.href = '/OnlineTest/QuestionCreationPage';
+//            window.location.href = '/OnlineTest/QuestionCreationPage';
 
-        },
+//        },
 
-        error: function () {
-            alert("Dropdown Failed ");
-        }
+//        error: function () {
+//            alert("Dropdown Failed ");
+//        }
 
-    });
-}
+//    });
+//}
 
 
 //function Submit() {
@@ -611,84 +611,173 @@ function Update() {
     });
 }
 
-function ViewQuestions() {
+//$(document).ready(function () {
+//    // Initialize DataTable
+//    function ViewQuestions(subjectId) {
+//        //// Destroy any existing DataTable instance
+//        //if ($.fn.dataTable.isDataTable('#Questionlist')) {
+//        //    $('#Questionlist').DataTable().clear().destroy();
+//        //}
 
-    alert("Hi");
+//        // Initialize new DataTable
+//        $("#Questionlist").DataTable({
+//            "destroy": true,
+//            "processing": true,
+//            "pagingType": "full_numbers",
+//            "ordering": false,
+//            ajax: {
+//                type: "GET",
+//                url: "/OnlineTest/ListOfQuestions",
+//                data: function (data) {
+//                    data.SUBJECTID = subjectId; // Send the selected SUBJECTID
+//                    return data;
+//                },
+//                dataType: 'json',
+//                error: function (xhr, err) {
+//                    alert("Error: " + xhr.responseText);
+//                }
+//            },
+//            "columns": [
+//                { "data": "SubjectId", "className": "center" },
+//                { "data": "QuestionId", "className": "center" },
+//                { "data": "QuestionText", "className": "center" },
+//                {
+//                    "data": "CreatedDate",
+//                    "render": function (data) {
+//                        return moment(data).format("DD/MM/YYYY");
+//                    }
+//                },
+//                {
+//                    "data": null,
+//                    "render": function (data, type, row) {
+//                        return '<input type="checkbox" class="question-checkbox" value="' + row.QuestionId + '" />';
+//                    },
+//                    "orderable": false
+//                },
+//                {
+//                    "data": null,
+//                    "render": function (data, type, row) {
+//                        return '<button onclick="EditQuestion(' + row.QuestionId + ')" class="btn btn-warning">Edit</button>';
+//                    },
+//                    "orderable": false
+//                },
+//                {
+//                    "data": null,
+//                    "render": function (data, type, row) {
+//                        return '<button onclick="DeleteQuestion(' + row.QuestionId + ')" class="btn btn-danger">Delete</button>';
+//                    },
+//                    "orderable": false
+//                }
+//            ]
+//        });
+//    }
 
-    $("#Questionlist").DataTable({
-        //"destroy": true,
-        "processing": true,
-        "pagingtype": "full_numbers",
-        "ordering": false,
+//    // Handle subject change event
+//    $('#Subjects').on('change', function () {
+//        var subjectId = $(this).val();
+//        if (subjectId) {
+//            ViewQuestions(subjectId);
+//        }
+//    });
+//});
 
-        ajax: {
+$(document).ready(function () {
 
-            type: "GET",
-            contentType: "application/json",
-            url: "/OnlineTest/ListOfQuestions",
-            dataType: 'json',
-            //dataSrc: "",
-            data: function (data) {
+    var sub = $("#Subjects").val();
+    alert(JSON.stringify(sub));
+    function ViewQuestions(subjectId) {
 
-               
-                //Empty()
-                alert(JSON.stringify(data));
-               return JSON.stringify(data);
+        alert(subjectId);
 
+        $("#Questionlist").DataTable({
+            "destroy": true,
+            "processing": true,
+            "pagingtype": "full_numbers",
+            "ordering": false,
+
+            ajax: {
+
+                type: "GET",
+                contentType: "application/json",
+                url: "/OnlineTest/ListOfQuestions",
+                dataType: 'json',
+                //dataSrc: "",
+                data: function (data) {
+
+                    data.SUBJECTID = subjectId;
+                    //Empty()
+                    alert(JSON.stringify(data));
+                    return data;
+
+
+                },
+
+                error: function (xhr, err) {
+                    alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                    alert("responseText: " + xhr.responseText);
+                }
 
             },
 
-            error: function (xhr, err) {
-                alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
-                alert("responseText: " + xhr.responseText);
-            }
+            "columns": [
 
+                { "data": "SubjectId", "className": "center", "autowidth": true },
+                 { "data": "QuestionId", "className": "center", "autowidth": true },
+                { "data": "QuestionText", "className": "center", "autowidth": true },
+
+                 {
+                     "data": "CreatedDate",
+                     "render": function (data) {
+                         return moment(data).format("DD/MM/YYYY");
+                     }, "autowidth": true
+
+                 },
+
+                 {
+                     "data": null,
+                     "render": function (data, type, row) {
+                         return '<input type="checkbox" class="question-checkbox" value="' + row.QuestionId + '" />';
+                     },
+                     "orderable": false
+                 },
+
+
+               {
+
+                   mRender: function (data, type, row) {
+
+                       return '<a onclick="EditQuestion(' + row.QuestionId + ')" class = "btn btn-warning" >Edit</a>'
+
+                   },
+               },
+        {
+
+            mRender: function (data, type, row) {
+                return '<a onclick="DeleteQuestion (' + row.QuestionId + ')" class = "btn btn-primary" >DELETE</a>'
+
+            }
         },
 
-        "columns": [
 
-            { "data": "SubjectId", "className": "center", "autowidth": true },
-             { "data": "QuestionId", "className": "center", "autowidth": true },
-            { "data": "QuestionText", "className": "center", "autowidth": true },
+            ]
 
-             {
-                 "data": "CreatedDate",
-                 "render": function (data) {
-                     return moment(data).format("DD/MM/YYYY");
-                 }, "autowidth": true
+        });
+    }
 
-             },
-
-             {
-                 "data": null,
-                 "render": function (data, type, row) {
-                     return '<input type="checkbox" class="question-checkbox" value="' + row.QuestionId + '" />';
-                 },
-                 "orderable": false
-             },
-
-
-           {
-
-               mRender: function (data, type, row) {
-
-                   return '<a onclick="EditQuestion(' + row.QuestionId + ')" class = "btn btn-warning" >Edit</a>'
-
-               },
-           },
-    {
-
-        mRender: function (data, type, row) {
-            return '<a onclick="DeleteQuestion (' + row.QuestionId + ')" class = "btn btn-primary" >DELETE</a>'
-
+    $('#Subjects').on('change', function () {
+        var subjectId = $(this).val();
+        if (subjectId != 0) {
+            ViewQuestions(subjectId);
         }
-    },
-
-
-        ]
+        else {
+            ViewQuestions();
+        }
 
     });
-}
+});
+
+
+
 
 function DeleteQuestion(ID) {
 
@@ -713,5 +802,5 @@ function DeleteQuestion(ID) {
 
     })
 
-
 }
+

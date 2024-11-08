@@ -167,7 +167,7 @@ end
 
 select * from subjects
 
-truncate table subjects
+truncate table OPTIONS
 
 
 create procedure showsubjects 
@@ -202,3 +202,9 @@ as
 begin 
 select * from Questions
 end
+TRUNCATE TABLE OPTIONS
+TRUNCATE TABLE Questions
+
+DROP TABLE OPTIONS
+
+TRUNCATE TABLE testtable

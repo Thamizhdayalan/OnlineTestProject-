@@ -59,7 +59,10 @@
             @Html.TextBox("ExpiryDate", "", new { @class = "form-control", type = "date" })<br />
 
             <button type="button" class=" btn btn-success" onclick="Create()">Create</button>
-            <button type="button" class="btn btn-primary" onclick="TestList()">TestList</button><br />          
+            <button type="button" class="btn btn-primary" onclick="TestList()">TestList</button><br />
+            <a href ="/OnlineTest/SelectTestTypeDropdown">
+            <button type="button" class=" btn btn-success" >QuestionList</button> <br />    
+                </a>      
         </form>
        
         
@@ -126,29 +129,6 @@
         </div>
         </div>
 </div>
-        <div class="container">
-             <div class="row">
-            <div class="col-md-2"></div>  
-                 <div class="col-md-8"> 
-        <button type="button" class=" btn btn-success" onclick="ViewQuestions()">QuestionList</button> <br />
-        <table id="Questionlist" class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <th>SUBJECTID</th>
-                 <th>QUESTIONID</th>
-                <th>QUESTION</th>
-                <th>CREATED DATE</th>
-                <th>CHOOSE</th>
-                <th>EDIT</th>
-                <th>DELETE</th>
-            </tr>
-                </thead>
-            <tbody></tbody>
-        </table>
-                      <button type="button" class="btn btn-primary" onclick="MakeTest()">SaveQuestions</button><br />   
-        </div>
-                 <div class="col-md-2"></div>
-        </div>  
-            </div>    
+         
 </body>
 </html>
